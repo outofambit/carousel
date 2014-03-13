@@ -28,7 +28,7 @@ public:
     void update();
 	void draw();
     void setPos (ci::Vec2f new_pos);
-    void SetWidth (float width);
+    void setWidth (float width);
 };
 
 #endif /* defined(__carousel__CarouselImage__) */

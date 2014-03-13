@@ -20,6 +20,11 @@ void CarouselImage::setup()
     mBR = Vec2f( mTexture.getWidth(), mTexture.getHeight() );
 }
 
+void CarouselImage::setPos(Vec2f new_pos)
+{
+    app::timeline().apply( &mPos, new_pos, 0.35f, EaseOutQuint() );
+}
+
 void CarouselImage::update()
 {
     mArea.set(0, 0, mBR.value().x, mBR.value().y);

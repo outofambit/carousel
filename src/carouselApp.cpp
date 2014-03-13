@@ -21,6 +21,7 @@ void carouselApp::setup()
 {
     std::cerr << app::getAssetPath( "msi.jpg" ) << std::endl;
     cimg.setup();
+    cimg.setPos(getWindowCenter());
 }
 
 void carouselApp::mouseDown( MouseEvent event )
