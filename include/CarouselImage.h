@@ -24,7 +24,7 @@ class CarouselImage {
     
 public:
     CarouselImage();
-    void setup();
+    void setup(ci::fs::path p);
     void update();
 	void draw();
     void setPos (ci::Vec2f new_pos);

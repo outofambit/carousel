@@ -14,9 +14,9 @@ CarouselImage::CarouselImage()
 {
 }
 
-void CarouselImage::setup()
+void CarouselImage::setup(ci::fs::path p)
 {
-    mTexture = gl::Texture( loadImage( app::loadAsset( "msi.jpg" ) ) );
+    mTexture = gl::Texture( loadImage( p ) );
     mBR = Vec2f( mTexture.getWidth(), mTexture.getHeight() );
 }
 
@@ -25,10 +25,16 @@ void CarouselImage::setPos(Vec2f new_pos)
     app::timeline().apply( &mPos, new_pos, 0.35f, EaseOutQuint() );
 }
 
+void CarouselImage::setWidth(float width)
+{
+    float height = width / mTexture.getAspectRatio();
+    app::timeline().apply( &mBR, Vec2f(width, height), 0.25f, EaseInOutQuint());
+}
+
 void CarouselImage::update()
 {
     mArea.set(0, 0, mBR.value().x, mBR.value().y);
-    mArea.offsetCenterTo(mPos.value());
+    mArea.offsetCenterTo( mPos.value() );
 }
 
 void CarouselImage::draw()
