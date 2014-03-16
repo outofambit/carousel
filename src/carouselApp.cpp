@@ -13,15 +13,21 @@ struct Toucher {
     Vec2f mStartPos, mCurPos;
     Toucher()
     {}
+    
     Toucher (const Vec2f &startPos)
     { mStartPos = startPos; }
     
     void updatePos( const Vec2f &latestPos )
     { mCurPos = latestPos; }
     
-    bool isLeftward()
+    bool isLeftward() const
     {
-        return (mCurPos-mStartPos).x < 0;
+        return (mCurPos-mStartPos).x < -20;
+    }
+    
+    bool isRightward() const
+    {
+        return (mCurPos-mStartPos).x > 20;
     }
     
     void draw () const
@@ -30,6 +36,8 @@ struct Toucher {
         gl::drawLine(mStartPos, mCurPos);
     }
 };
+
+
 class carouselApp : public AppNative {
   public:
     void prepareSettings( Settings *settings );
@@ -82,7 +90,7 @@ void carouselApp::touchesEnded(TouchEvent event)
         {
             cim.advance();
         }
-        else
+        else if (mTouches[touchIt->getId()].isRightward())
         {
             cim.devance();
         }
