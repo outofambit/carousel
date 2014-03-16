@@ -21,6 +21,7 @@ class CarouselImage {
     ci::Vec2f                   mOrigSize;
     ci::Rectf                   mArea;
     int                         mYear;
+    bool                        shouldDraw;
     
 public:
     CarouselImage();
@@ -29,6 +30,9 @@ public:
 	void draw();
     void setPos (ci::Vec2f new_pos);
     void setWidth (float width);
+    float getWidth();
+    void setShouldDraw(const bool b);
+    bool getShouldDraw();
 };
 
 #endif /* defined(__carousel__CarouselImage__) */

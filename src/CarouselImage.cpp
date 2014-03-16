@@ -12,6 +12,7 @@ using namespace ci;
 
 CarouselImage::CarouselImage()
 {
+    setShouldDraw( true );
 }
 
 void CarouselImage::setup(ci::fs::path p)
@@ -31,6 +32,11 @@ void CarouselImage::setWidth(float width)
     app::timeline().apply( &mBR, Vec2f(width, height), 0.25f, EaseInOutQuint());
 }
 
+float CarouselImage::getWidth()
+{
+    return mBR.value().x;
+}
+
 void CarouselImage::update()
 {
     mArea.set(0, 0, mBR.value().x, mBR.value().y);
@@ -39,6 +45,16 @@ void CarouselImage::update()
 
 void CarouselImage::draw()
 {
-    if (mTexture)
-    gl::draw( mTexture, mArea );
+    if (getShouldDraw() && mTexture)
+        gl::draw( mTexture, mArea );
+}
+
+void CarouselImage::setShouldDraw(const bool b)
+{
+    shouldDraw = b;
+}
+
+bool CarouselImage::getShouldDraw()
+{
+    return shouldDraw;
 }
