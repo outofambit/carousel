@@ -46,7 +46,10 @@ void CarouselImage::update()
 void CarouselImage::draw()
 {
     if (getShouldDraw() && mTexture)
+    {
+        gl::color(1.0, 1.0, 1.0);
         gl::draw( mTexture, mArea );
+    }
 }
 
 void CarouselImage::setShouldDraw(const bool b)

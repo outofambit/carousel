@@ -13,7 +13,7 @@ using namespace std;
 
 carouselImageManager::carouselImageManager()
 {
-    
+    mCIndex = 0;
 }
 
 void carouselImageManager::setup()
@@ -37,7 +37,6 @@ void carouselImageManager::setup()
             cimmys . push_back( cim );
         }
     }
-    setCenterPhoto(0);
 }
 
 void carouselImageManager::mouseDown( app::MouseEvent event )
@@ -96,28 +95,6 @@ void carouselImageManager::devance()
     if (cimmyIndexCheck( mCIndex+2 ))
         cimmys[mCIndex+2].setShouldDraw( false );
     mCIndex--;
-}
-
-void carouselImageManager::setCenterPhoto(const int c)
-{
-    if (c < 0 || c > cimmys.size()-1)
-    {
-        app::console() << "would have left photo range" << endl;
-        return;
-    }
-    
-    mCIndex = c;
-    cimmys[mCIndex].setPos(mCenterPos);
-    cimmys[mCIndex].setShouldDraw(true);
-    if (mCIndex-1 > -1)
-        sendToLeft(&cimmys[mCIndex-1]);
-    if (mCIndex-2 >= 0)
-        sendOffSide(&cimmys[mCIndex-2], true);
-    if (mCIndex+1 <= cimmys.size()-1)
-        sendToRight(&cimmys[mCIndex+1]);
-    if (mCIndex+2 <= cimmys.size()-2)
-        sendOffSide(&cimmys[mCIndex+2], false);
-
 }
 
 void carouselImageManager::sendToLeft(CarouselImage * const caim)
