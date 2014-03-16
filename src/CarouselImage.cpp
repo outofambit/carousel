@@ -15,20 +15,20 @@ CarouselImage::CarouselImage()
     setShouldDraw( true );
 }
 
-void CarouselImage::setup(ci::fs::path p)
+void CarouselImage::setup(const ci::fs::path p)
 {
     mTexture = gl::Texture( loadImage( p ) );
     mBR = Vec2f( mTexture.getWidth(), mTexture.getHeight() );
 }
 
-void CarouselImage::setPos(Vec2f new_pos)
+void CarouselImage::setPos(const Vec2f new_pos)
 {
     app::timeline().apply( &mPos, new_pos, 0.35f, EaseOutQuint() );
 }
 
-void CarouselImage::setWidth(float width)
+void CarouselImage::setWidth(const float width)
 {
-    float height = width / mTexture.getAspectRatio();
+    const float height = width / mTexture.getAspectRatio();
     app::timeline().apply( &mBR, Vec2f(width, height), 0.25f, EaseInOutQuint());
 }
 

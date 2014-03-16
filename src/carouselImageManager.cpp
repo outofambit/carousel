@@ -37,34 +37,86 @@ void carouselImageManager::setup()
             cimmys . push_back( cim );
         }
     }
+    setCenterPhoto(0);
 }
 
 void carouselImageManager::mouseDown( app::MouseEvent event )
 {
-    setCenterPhoto(0);
+
 }
 
 void carouselImageManager::update()
 {
-    for (vector<CarouselImage>::iterator it (cimmys.begin()); it != cimmys.end(); ++it)
+    for (vector<CarouselImage>::iterator it = cimmys.begin(); it != cimmys.end(); ++it)
         it -> update();
 }
 
 void carouselImageManager::draw()
 {
-    for (vector<CarouselImage>::iterator it (cimmys.begin()); it != cimmys.end(); ++it)
+    for (vector<CarouselImage>::iterator it = cimmys.begin(); it != cimmys.end(); ++it)
         it -> draw();
+}
+
+void carouselImageManager::advance()
+{
+    if ( mCIndex == cimmys.size()-1 )
+    {
+        app::console() << "can't advance" << endl;
+        return;
+    }
+    
+    
+    if ( cimmyIndexCheck( mCIndex-2 ) )
+        cimmys[mCIndex-2] . setShouldDraw( false );
+    if ( cimmyIndexCheck( mCIndex-1 ) )
+        sendOffSide( &cimmys[mCIndex-1], true );
+    sendToLeft( &cimmys[mCIndex] );
+    if ( cimmyIndexCheck( mCIndex+1 ) )
+        cimmys[mCIndex+1] . setPos( mCenterPos );
+    if (cimmyIndexCheck( mCIndex+2 ))
+        sendToRight( &cimmys[mCIndex+2] );
+    mCIndex++;
+}
+
+void carouselImageManager::devance()
+{
+    if ( mCIndex == 0 )
+    {
+        app::console() << "can't devance" << endl;
+        return;
+    }
+    
+    if ( cimmyIndexCheck( mCIndex-2 ) )
+        sendToLeft( &cimmys[mCIndex-2] );
+    if ( cimmyIndexCheck( mCIndex-1 ) )
+        cimmys[mCIndex-1].setPos( mCenterPos );
+    sendToRight( &cimmys[mCIndex] );
+    if ( cimmyIndexCheck( mCIndex+1 ) )
+        sendOffSide( &cimmys[mCIndex+1], false );
+    if (cimmyIndexCheck( mCIndex+2 ))
+        cimmys[mCIndex+2].setShouldDraw( false );
+    mCIndex--;
 }
 
 void carouselImageManager::setCenterPhoto(const int c)
 {
+    if (c < 0 || c > cimmys.size()-1)
+    {
+        app::console() << "would have left photo range" << endl;
+        return;
+    }
     
-    cimmys[c].setPos(mCenterPos);
-    cimmys[c].setShouldDraw(true);
-    if (c > 0)
-        sendToLeft(&cimmys[c-1]);
-    if (c < cimmys.size())
-        sendToRight(&cimmys[c+1]);
+    mCIndex = c;
+    cimmys[mCIndex].setPos(mCenterPos);
+    cimmys[mCIndex].setShouldDraw(true);
+    if (mCIndex-1 > -1)
+        sendToLeft(&cimmys[mCIndex-1]);
+    if (mCIndex-2 >= 0)
+        sendOffSide(&cimmys[mCIndex-2], true);
+    if (mCIndex+1 <= cimmys.size()-1)
+        sendToRight(&cimmys[mCIndex+1]);
+    if (mCIndex+2 <= cimmys.size()-2)
+        sendOffSide(&cimmys[mCIndex+2], false);
 
 }
 
@@ -90,7 +142,7 @@ void carouselImageManager::sendToSide(CarouselImage * const caim, const bool toL
         d = -1;
     
     Vec2f lp = app::getWindowCenter() + Vec2f( app::getWindowWidth() / 2 * d,0 );
-    lp += Vec2f( ( caim -> getWidth() / 2 - 10) * d, 0 );
+    lp += Vec2f( ( caim -> getWidth() / 2 - 30) * d, 0 );
     caim -> setPos( lp );
     caim -> setShouldDraw(true);
 }
@@ -108,4 +160,13 @@ void carouselImageManager::sendOffSide(CarouselImage * const caim, const bool to
     
     Vec2f lp = app::getWindowCenter() + Vec2f( (app::getWindowWidth() + caim->getWidth()) * d,0 );
     caim->setPos( lp );
+}
+
+bool carouselImageManager::cimmyIndexCheck(const int i)
+{
+    if ( i < 0 )
+        return false;
+    if ( i > cimmys.size()-1 )
+        return false;
+    return true;
 }

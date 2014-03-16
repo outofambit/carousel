@@ -11,7 +11,8 @@ using namespace std;
 class carouselApp : public AppNative {
   public:
 	void setup();
-	void mouseDown( MouseEvent event );	
+	void mouseDown( MouseEvent event );
+    void keyDown (KeyEvent event);
 	void update();
 	void draw();
     
@@ -24,6 +25,16 @@ void carouselApp::setup()
     cim.setup();
 }
 
+void carouselApp::keyDown( KeyEvent event )
+{
+    if ( event.getChar() == 'n' )
+        cim.advance();
+    else if ( event.getChar() == 'b' )
+        cim.devance();
+    else if ( event.getChar() == 't' )
+        cim.setCenterPhoto(3);
+}
+
 void carouselApp::mouseDown( MouseEvent event )
 {
     cim.mouseDown(event);
@@ -32,7 +43,6 @@ void carouselApp::mouseDown( MouseEvent event )
 void carouselApp::update()
 {
     cim.update();
-
 }
 
 void carouselApp::draw()

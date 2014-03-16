@@ -25,11 +25,11 @@ class CarouselImage {
     
 public:
     CarouselImage();
-    void setup(ci::fs::path p);
+    void setup(const ci::fs::path p);
     void update();
 	void draw();
-    void setPos (ci::Vec2f new_pos);
-    void setWidth (float width);
+    void setPos (const ci::Vec2f new_pos);
+    void setWidth (const float width);
     float getWidth();
     void setShouldDraw(const bool b);
     bool getShouldDraw();
