@@ -10,15 +10,25 @@
 
 using namespace ci;
 
-CarouselImage::CarouselImage()
+CarouselImage::CarouselImage(const fs::path p)
 {
-    setShouldDraw( true );
+    mBasePath = p;
 }
 
-void CarouselImage::setup(const ci::fs::path p)
+void CarouselImage::setup()
 {
-    mTexture = gl::Texture( loadImage( p ) );
+    mTexture = gl::Texture( loadImage( mBasePath / fs::path( "photo.jpg" ) ) );
     mBR = Vec2f( mTexture.getWidth(), mTexture.getHeight() );
+}
+
+gl::Texture CarouselImage::getTitleTexture()
+{
+    return loadImage( mBasePath / fs::path( "title.png" ) );
+}
+
+gl::Texture CarouselImage::getNamesTexture()
+{
+    return loadImage( mBasePath / fs::path( "names.png" ) );
 }
 
 void CarouselImage::setPos(const Vec2f new_pos)
@@ -40,24 +50,68 @@ float CarouselImage::getWidth()
 void CarouselImage::update()
 {
     mArea.set(0, 0, mBR.value().x, mBR.value().y);
-    mArea.offsetCenterTo( mPos.value() );
+    mArea.offsetCenterTo( mPos );
+    
 }
 
 void CarouselImage::draw()
 {
-    if (getShouldDraw() && mTexture)
+    if (getShouldDraw())
     {
-        gl::color(1.0, 1.0, 1.0);
-        gl::draw( mTexture, mArea );
+        gl::color(1.0, 1.0, 1.0, 0.5);
+        if ( mTexture )
+            gl::draw( mTexture, mArea );
+        
+        gl::color(mTitleColor);
+        if ( mTitleTex )
+            gl::draw(mTitleTex, mPos.value() + Vec2f(0, -200));
+        
+        gl::color(mNamesColor);
+        if ( mNamesTex )
+            gl::draw(mNamesTex, mPos.value() + Vec2f(0, 200));
+        
     }
 }
 
 void CarouselImage::setShouldDraw(const bool b)
 {
-    shouldDraw = b;
+    if ( b != getShouldDraw() )
+    {
+        if ( b )
+        {
+            mTitleTex = getTitleTexture();
+            mNamesTex = getNamesTexture();
+        }
+        
+        else
+        {
+            mTitleTex.reset();
+            mNamesTex.reset();
+        }
+        
+        mShouldDraw = b;
+    }
 }
 
 bool CarouselImage::getShouldDraw()
 {
-    return shouldDraw;
+    return mShouldDraw;
+}
+
+void CarouselImage::setShouldDrawText( const bool b )
+{
+    if ( b != mShouldDrawText )
+    {
+        if (b)
+        {
+            app::timeline().apply( &mTitleColor, ColorA(1,1,1,1), 0.5f, EaseInOutQuint());
+            app::timeline().apply( &mNamesColor, ColorA(1,1,1,1), 0.5f, EaseInOutQuint()).appendTo( &mTitleColor );
+        }
+        else
+        {
+            app::timeline().apply( &mTitleColor, ColorA(1,1,1,0), 0.5f, EaseInOutQuint());
+            app::timeline().apply( &mNamesColor, ColorA(1,1,1,0), 0.5f, EaseInOutQuint());
+        }
+        mShouldDrawText = b;
+    }
 }

@@ -21,19 +21,19 @@ void carouselImageManager::setup()
     mCenterPos = app::getWindowCenter();
     
     
-    vector<fs::path> v;
-    copy(fs::directory_iterator("/Users/Nick/src/carousel/assets/"), fs::directory_iterator(), back_inserter(v));
-    sort(v.begin(), v.end());
+    vector<fs::path> dirs;
+    copy(fs::directory_iterator("/Users/Nick/src/carousel/assets/photos/"), fs::directory_iterator(), back_inserter(dirs));
+    sort(dirs.begin(), dirs.end());
     
-    for (vector<fs::path>::const_iterator it (v.begin()); it != v.end(); ++it)
-    {   if (fs::is_regular_file( *it ));
+    for (vector<fs::path>::const_iterator it (dirs.begin()); it != dirs.end(); ++it)
+    {   if (fs::is_directory( *it ));
         {
-            CarouselImage cim = CarouselImage();
-            //            console() << *it << endl;
-            cim.setup( *it );
+            CarouselImage cim = CarouselImage(*it);
+            app::console() << *it << endl;
+            cim.setup();
             cim.setWidth( app::getWindowWidth()/2 );
-            sendOffSide(&cim, false);
-            cim.setShouldDraw(false);
+            sendOffSide( &cim, false );
+            cim.setShouldDraw( false );
             cimmys . push_back( cim );
         }
     }
@@ -51,7 +51,7 @@ void carouselImageManager::update()
 }
 
 void carouselImageManager::draw()
-{
+{   // draw the images
     for (vector<CarouselImage>::iterator it = cimmys.begin(); it != cimmys.end(); ++it)
         it -> draw();
 }
@@ -71,7 +71,10 @@ void carouselImageManager::advance()
         sendOffSide( &cimmys[mCIndex-1], true );
     sendToLeft( &cimmys[mCIndex] );
     if ( cimmyIndexCheck( mCIndex+1 ) )
+    {
         cimmys[mCIndex+1] . setPos( mCenterPos );
+        cimmys[mCIndex+1] . setShouldDrawText(true);
+    }
     if (cimmyIndexCheck( mCIndex+2 ))
         sendToRight( &cimmys[mCIndex+2] );
     mCIndex++;
@@ -88,7 +91,10 @@ void carouselImageManager::devance()
     if ( cimmyIndexCheck( mCIndex-2 ) )
         sendToLeft( &cimmys[mCIndex-2] );
     if ( cimmyIndexCheck( mCIndex-1 ) )
+    {
         cimmys[mCIndex-1].setPos( mCenterPos );
+        cimmys[mCIndex-1] . setShouldDrawText(true);
+    }
     sendToRight( &cimmys[mCIndex] );
     if ( cimmyIndexCheck( mCIndex+1 ) )
         sendOffSide( &cimmys[mCIndex+1], false );
@@ -122,6 +128,7 @@ void carouselImageManager::sendToSide(CarouselImage * const caim, const bool toL
     lp += Vec2f( ( caim -> getWidth() / 2 - 30) * d, 0 );
     caim -> setPos( lp );
     caim -> setShouldDraw(true);
+    caim -> setShouldDrawText(false);
 }
 
 void carouselImageManager::sendOffSide(CarouselImage * const caim, const bool toLeft)

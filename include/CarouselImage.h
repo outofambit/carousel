@@ -16,23 +16,28 @@
 
 class CarouselImage {
     
-    ci::gl::Texture             mTexture;
+    ci::gl::Texture             mTexture, mTitleTex, mNamesTex;
+    ci::fs::path                mBasePath;
     ci::Anim<ci::Vec2f>         mPos, mBR;
+    ci::Anim<ci::ColorA>        mTitleColor, mNamesColor;
     ci::Vec2f                   mOrigSize;
     ci::Rectf                   mArea;
     int                         mYear;
-    bool                        shouldDraw;
+    bool                        mShouldDraw, mShouldDrawText;
     
 public:
-    CarouselImage();
-    void setup(const ci::fs::path p);
+    CarouselImage(const ci::fs::path p);
+    void setup();
     void update();
 	void draw();
     void setPos (const ci::Vec2f new_pos);
+    void setShouldDrawText (const bool b);
     void setWidth (const float width);
     float getWidth();
     void setShouldDraw(const bool b);
     bool getShouldDraw();
+    ci::gl::Texture getTitleTexture();
+    ci::gl::Texture getNamesTexture();
 };
 
 #endif /* defined(__carousel__CarouselImage__) */

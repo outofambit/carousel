@@ -120,6 +120,7 @@ void carouselApp::draw()
 {
 	// clear out the window with black
 	gl::clear( Color( 0, 0, 0 ) );
+    gl::enableAlphaBlending();
     cim.draw();
     for( map<uint32_t,Toucher>::const_iterator touchersIt = mTouches.begin(); touchersIt != mTouches.end(); ++touchersIt ) {
 		touchersIt->second.draw();
