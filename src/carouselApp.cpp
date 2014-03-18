@@ -86,11 +86,11 @@ void carouselApp::touchesMoved( TouchEvent event )
 void carouselApp::touchesEnded(TouchEvent event)
 {
     for( vector<TouchEvent::Touch>::const_iterator touchIt = event.getTouches().begin(); touchIt != event.getTouches().end(); ++touchIt ) {
-        if (mTouches[touchIt->getId()].isLeftward() )
+        if (mTouches[touchIt->getId()].isLeftward() && cim.hitCheck(mTouches[touchIt->getId()].mStartPos))
         {
             cim.advance();
         }
-        else if (mTouches[touchIt->getId()].isRightward())
+        else if (mTouches[touchIt->getId()].isRightward() && cim.hitCheck(mTouches[touchIt->getId()].mStartPos))
         {
             cim.devance();
         }

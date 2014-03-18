@@ -25,7 +25,7 @@ carouselImageManager::~carouselImageManager()
 void carouselImageManager::setup()
 {
     mCenterPos = app::getWindowCenter();
-    
+    mHitArea = Rectf(Vec2f(0, app::getWindowHeight()*0.2), Vec2f(app::getWindowWidth(),app::getWindowHeight()*0.8));
     
     vector<fs::path> dirs;
     copy(fs::directory_iterator("/Users/Nick/src/carousel/assets/photos/"), fs::directory_iterator(), back_inserter(dirs));
@@ -38,8 +38,8 @@ void carouselImageManager::setup()
             app::console() << *it << endl;
             caim -> setup();
             caim -> setWidth( app::getWindowWidth()/2 );
-            sendOffSide( caim, false );
             caim -> setShouldDraw( false );
+            sendOffSide( caim, false );
             mCaims . push_back( caim );
         }
     }
@@ -114,6 +114,11 @@ void carouselImageManager::devance()
         sendToSide( mCaims[mCIndex-2], true );
 
     mCIndex--;
+}
+
+bool carouselImageManager::hitCheck( Vec2f pt ) const
+{
+    return mHitArea.contains( pt );
 }
 
 Anim<ColorA> * carouselImageManager::sendToSide(CarouselImage * const caim, const bool toLeft)
