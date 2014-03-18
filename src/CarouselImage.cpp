@@ -13,6 +13,8 @@ using namespace ci;
 CarouselImage::CarouselImage(const fs::path p)
 {
     mBasePath = p;
+    mYear = std::atoi( p.filename().string().c_str() );
+    app::console() << mYear << std::endl;
 }
 
 void CarouselImage::setup()
