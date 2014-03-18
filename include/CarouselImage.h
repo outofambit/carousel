@@ -31,7 +31,7 @@ public:
     void update();
 	void draw();
     void setPos (const ci::Vec2f new_pos);
-    void setShouldDrawText (const bool b);
+    ci::Anim<ci::ColorA> * setShouldDrawText (const bool b, ci::Anim<ci::ColorA> * triggerPtr = NULL);
     void setWidth (const float width);
     float getWidth();
     void setShouldDraw(const bool b);

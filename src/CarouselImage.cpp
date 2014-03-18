@@ -64,11 +64,11 @@ void CarouselImage::draw()
         
         gl::color(mTitleColor);
         if ( mTitleTex )
-            gl::draw(mTitleTex, mPos.value() + Vec2f(0, -200));
+            gl::draw(mTitleTex, Vec2f(app::getWindowWidth()/2-mTitleTex.getWidth()/2, 200));
         
         gl::color(mNamesColor);
         if ( mNamesTex )
-            gl::draw(mNamesTex, mPos.value() + Vec2f(0, 200));
+            gl::draw(mNamesTex, Vec2f(app::getWindowWidth()/2-mNamesTex.getWidth()/2, 600));
         
     }
 }
@@ -98,20 +98,24 @@ bool CarouselImage::getShouldDraw()
     return mShouldDraw;
 }
 
-void CarouselImage::setShouldDrawText( const bool b )
+Anim<ColorA> * CarouselImage::setShouldDrawText( const bool b, Anim<ci::ColorA> * triggerPtr)
 {
     if ( b != mShouldDrawText )
     {
-        if (b)
+        mShouldDrawText = b;
+        if (b && triggerPtr)
         {
-            app::timeline().apply( &mTitleColor, ColorA(1,1,1,1), 0.5f, EaseInOutQuint());
+            app::timeline().apply( &mTitleColor, ColorA(1,1,1,1), 0.5f, EaseInOutQuint()).appendTo( triggerPtr );
             app::timeline().apply( &mNamesColor, ColorA(1,1,1,1), 0.5f, EaseInOutQuint()).appendTo( &mTitleColor );
+            return &mNamesColor;
         }
         else
         {
             app::timeline().apply( &mTitleColor, ColorA(1,1,1,0), 0.5f, EaseInOutQuint());
             app::timeline().apply( &mNamesColor, ColorA(1,1,1,0), 0.5f, EaseInOutQuint());
+            return &mTitleColor;
         }
-        mShouldDrawText = b;
+
     }
+    return NULL;
 }

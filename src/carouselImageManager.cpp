@@ -37,6 +37,10 @@ void carouselImageManager::setup()
             cimmys . push_back( cim );
         }
     }
+    cimmys[0].setShouldDraw(true);
+    cimmys[0].setShouldDrawText(true);
+    cimmys[1].setShouldDraw(true);
+    cimmys[1].setShouldDrawText(true);
 }
 
 void carouselImageManager::mouseDown( app::MouseEvent event )
@@ -63,20 +67,20 @@ void carouselImageManager::advance()
         app::console() << "can't advance" << endl;
         return;
     }
-    
+    Anim<ColorA> * animColor;
     
     if ( cimmyIndexCheck( mCIndex-2 ) )
         cimmys[mCIndex-2] . setShouldDraw( false );
     if ( cimmyIndexCheck( mCIndex-1 ) )
         sendOffSide( &cimmys[mCIndex-1], true );
-    sendToLeft( &cimmys[mCIndex] );
-    if ( cimmyIndexCheck( mCIndex+1 ) )
+    animColor = sendToSide( &cimmys[mCIndex], true );
+    if ( cimmyIndexCheck( mCIndex+1 ) && animColor)
     {
         cimmys[mCIndex+1] . setPos( mCenterPos );
-        cimmys[mCIndex+1] . setShouldDrawText(true);
+        cimmys[mCIndex+1] . setShouldDrawText( true, animColor);
     }
     if (cimmyIndexCheck( mCIndex+2 ))
-        sendToRight( &cimmys[mCIndex+2] );
+        sendToSide( &cimmys[mCIndex+2], false );
     mCIndex++;
 }
 
@@ -88,37 +92,30 @@ void carouselImageManager::devance()
         return;
     }
     
-    if ( cimmyIndexCheck( mCIndex-2 ) )
-        sendToLeft( &cimmys[mCIndex-2] );
-    if ( cimmyIndexCheck( mCIndex-1 ) )
-    {
-        cimmys[mCIndex-1].setPos( mCenterPos );
-        cimmys[mCIndex-1] . setShouldDrawText(true);
-    }
-    sendToRight( &cimmys[mCIndex] );
-    if ( cimmyIndexCheck( mCIndex+1 ) )
-        sendOffSide( &cimmys[mCIndex+1], false );
+    Anim<ColorA> * animColor;
+    
     if (cimmyIndexCheck( mCIndex+2 ))
         cimmys[mCIndex+2].setShouldDraw( false );
+    if ( cimmyIndexCheck( mCIndex+1 ) )
+        sendOffSide( &cimmys[mCIndex+1], false );
+    animColor = sendToSide( &cimmys[mCIndex], false );
+    if ( cimmyIndexCheck( mCIndex-1 ) && animColor)
+    {
+        cimmys[mCIndex-1].setPos( mCenterPos );
+        cimmys[mCIndex-1] . setShouldDrawText( true, animColor);
+    }
+    if ( cimmyIndexCheck( mCIndex-2 ) )
+        sendToSide( &cimmys[mCIndex-2], true );
+
     mCIndex--;
 }
 
-void carouselImageManager::sendToLeft(CarouselImage * const caim)
-{
-    sendToSide(caim, true);
-}
-
-void carouselImageManager::sendToRight(CarouselImage * const caim)
-{
-    sendToSide(caim, false);
-}
-
-void carouselImageManager::sendToSide(CarouselImage * const caim, const bool toLeft)
+Anim<ColorA> * carouselImageManager::sendToSide(CarouselImage * const caim, const bool toLeft)
 {
     if (! caim)
     {
         app::console() << "no caim to send to side" << endl;
-        return;
+        return NULL;
     }
     int d = 1;
     if ( toLeft )
@@ -128,7 +125,7 @@ void carouselImageManager::sendToSide(CarouselImage * const caim, const bool toL
     lp += Vec2f( ( caim -> getWidth() / 2 - 30) * d, 0 );
     caim -> setPos( lp );
     caim -> setShouldDraw(true);
-    caim -> setShouldDrawText(false);
+    return caim -> setShouldDrawText(false);
 }
 
 void carouselImageManager::sendOffSide(CarouselImage * const caim, const bool toLeft)
