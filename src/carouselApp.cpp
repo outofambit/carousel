@@ -3,40 +3,11 @@
 
 #include "CarouselImage.h"
 #include "carouselImageManager.h"
+#include "Finger.h"
 
 using namespace ci;
 using namespace ci::app;
 using namespace std;
-
-
-struct Toucher {
-    Vec2f mStartPos, mCurPos;
-    Toucher()
-    {}
-    
-    Toucher (const Vec2f &startPos)
-    { mStartPos = startPos; }
-    
-    void updatePos( const Vec2f &latestPos )
-    { mCurPos = latestPos; }
-    
-    bool isLeftward() const
-    {
-        return (mCurPos-mStartPos).x < -20;
-    }
-    
-    bool isRightward() const
-    {
-        return (mCurPos-mStartPos).x > 20;
-    }
-    
-    void draw () const
-    {
-        gl::color(0, 1, 0);
-        gl::drawLine(mStartPos, mCurPos);
-    }
-};
-
 
 class carouselApp : public AppNative {
   public:
@@ -53,7 +24,7 @@ class carouselApp : public AppNative {
 	void draw();
     
     carouselImageManager cim;
-    map<uint32_t,Toucher>	mTouches;
+    map<uint32_t,Finger> mTouches;
 };
 
 void carouselApp::prepareSettings( Settings *settings )
@@ -71,7 +42,7 @@ void carouselApp::touchesBegan( TouchEvent event )
 {
     for( vector<TouchEvent::Touch>::const_iterator touchIt = event.getTouches().begin(); touchIt != event.getTouches().end(); ++touchIt )
     {
-        mTouches.insert( make_pair( touchIt -> getId(), Toucher ( touchIt -> getPos() ) ) );
+        mTouches.insert( make_pair( touchIt -> getId(), Finger ( touchIt -> getPos() ) ) );
     }
 }
 
@@ -122,7 +93,7 @@ void carouselApp::draw()
 	gl::clear( Color( 0, 0, 0 ) );
     gl::enableAlphaBlending();
     cim.draw();
-    for( map<uint32_t,Toucher>::const_iterator touchersIt = mTouches.begin(); touchersIt != mTouches.end(); ++touchersIt ) {
+    for( map<uint32_t,Finger>::const_iterator touchersIt = mTouches.begin(); touchersIt != mTouches.end(); ++touchersIt ) {
 		touchersIt->second.draw();
 	}
         
