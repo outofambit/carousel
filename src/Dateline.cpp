@@ -7,18 +7,20 @@
 //
 
 #include "Dateline.h"
+#include "cinder/Text.h"
 
 using namespace ci;
 using namespace std;
 
-Dateline::Dateline()
+Dateline::Dateline()    :
+    mColor(1.0,1.0,0.0,1.0)
 {}
 
 void Dateline::setup()
 {
     float xAxis = 100;
-    mStartPt = Vec2f( app::getWindowWidth() * 0.2, xAxis );
-    mEndPt = Vec2f( app::getWindowWidth() * 0.8, xAxis );
+    mStartPt = Vec2f( app::getWindowWidth() * 0.1, xAxis );
+    mEndPt = Vec2f( app::getWindowWidth() * 0.9, xAxis );
     
     vector<fs::path> dirs;
     copy(fs::directory_iterator("/Users/Nick/src/carousel/assets/photos/"), fs::directory_iterator(), back_inserter(dirs));
@@ -30,6 +32,19 @@ void Dateline::setup()
             mYears.push_back( std::atoi( it->filename().string().c_str() ) );
         }
     }
+    
+    for (int i = mYears[0] + (10 - mYears[0]%10); i < mYears[mYears.size()-1]; i+=10)
+    {
+        TextLayout decText;
+        decText.setFont( Font( "Futura", 16 ));
+        decText.clear( ColorA (1.0,1.0,1.0,0.0) );
+        decText.setColor( mColor );
+        decText.addLine( to_string( i ) );
+
+        mDecTexs.insert(make_pair(i, ( gl::Texture( decText.render( true ) ) ) ) );
+        
+    }
+    
     mCurYear = mYears[0];
 }
 
@@ -58,7 +73,8 @@ void Dateline::draw()
     for (int i = mYears[0] + (10 - mYears[0]%10); i < mYears[mYears.size()-1]; i+=10)
     {
         gl::drawLine( getPointFromYear(i) - Vec2f( 0, 10 ), getPointFromYear(i) + Vec2f( 0, 10 ));
+        gl::draw(mDecTexs[i], getPointFromYear( i ) + Vec2f( 0, 20 ));
     }
     // draw caret
-    gl::drawSolidCircle( mCurPt, 5);
+    gl::drawSolidTriangle( mCurPt.value()+Vec2f(0,2), mCurPt.value()+Vec2f( -5, 10 ), mCurPt.value()+Vec2f( 5, 10 ));
 }
