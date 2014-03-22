@@ -3,7 +3,7 @@
 
 #include "CarouselImage.h"
 #include "carouselImageManager.h"
-#include "Finger.h"
+#include "FingerTracker.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -24,7 +24,7 @@ class carouselApp : public AppNative {
 	void draw();
     
     carouselImageManager cim;
-    map<uint32_t,Finger> mTouches;
+    FingerTracker ft;
 };
 
 void carouselApp::prepareSettings( Settings *settings )
@@ -36,37 +36,22 @@ void carouselApp::setup()
 {
     setFullScreen(true);
     cim.setup();
+    ft.setup( &cim );
 }
 
 void carouselApp::touchesBegan( TouchEvent event )
 {
-    for( vector<TouchEvent::Touch>::const_iterator touchIt = event.getTouches().begin(); touchIt != event.getTouches().end(); ++touchIt )
-    {
-        mTouches.insert( make_pair( touchIt -> getId(), Finger ( touchIt -> getPos() ) ) );
-    }
+    ft.touchesBegan( event );
 }
 
 void carouselApp::touchesMoved( TouchEvent event )
 {
-    for( vector<TouchEvent::Touch>::const_iterator touchIt = event.getTouches().begin(); touchIt != event.getTouches().end(); ++touchIt )
-    {
-        mTouches[touchIt->getId()].updatePos( touchIt->getPos() );
-    }
+    ft.touchesMoved( event );
 }
 
 void carouselApp::touchesEnded(TouchEvent event)
 {
-    for( vector<TouchEvent::Touch>::const_iterator touchIt = event.getTouches().begin(); touchIt != event.getTouches().end(); ++touchIt ) {
-        if (mTouches[touchIt->getId()].isLeftward() && cim.hitCheck(mTouches[touchIt->getId()].mStartPos))
-        {
-            cim.advance();
-        }
-        else if (mTouches[touchIt->getId()].isRightward() && cim.hitCheck(mTouches[touchIt->getId()].mStartPos))
-        {
-            cim.devance();
-        }
-		mTouches.erase( touchIt->getId() );
-	}
+    ft.touchesEnded( event );
 }
 
 void carouselApp::keyDown( KeyEvent event )
@@ -93,9 +78,7 @@ void carouselApp::draw()
 	gl::clear( Color( 0, 0, 0 ) );
     gl::enableAlphaBlending();
     cim.draw();
-    for( map<uint32_t,Finger>::const_iterator touchersIt = mTouches.begin(); touchersIt != mTouches.end(); ++touchersIt ) {
-		touchersIt->second.draw();
-	}
+    ft.draw();
         
 }
 

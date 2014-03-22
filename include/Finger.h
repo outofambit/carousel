@@ -20,9 +20,9 @@ class Finger {
     
     Finger();
     
-    Finger( const ci::Vec2f &startPos );
+    Finger( const ci::Vec2f startPos );
     
-    void updatePos( const ci::Vec2f &latestPos );
+    void updatePos( const ci::Vec2f latestPos );
     
     bool isLeftward() const;
     

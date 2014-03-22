@@ -14,10 +14,10 @@ using namespace ci;
 Finger::Finger()
 {}
 
-Finger::Finger ( const Vec2f &startPos )
+Finger::Finger ( const Vec2f startPos )
 { mStartPos = startPos; }
 
-void Finger::updatePos( const Vec2f &latestPos )
+void Finger::updatePos( const Vec2f latestPos )
 { mCurPos = latestPos; }
 
 bool Finger::isLeftward() const
