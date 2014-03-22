@@ -46,6 +46,7 @@ int Dateline::getYearFromPoint(const ci::Vec2f pt) const
 void Dateline::goToYear(const int y)
 {
     mCurYear = y;
+    app::timeline().apply(&mCurPt, getPointFromYear( mCurYear ), 0.25);
 }
 
 void Dateline::draw()
@@ -59,5 +60,5 @@ void Dateline::draw()
         gl::drawLine( getPointFromYear(i) - Vec2f( 0, 10 ), getPointFromYear(i) + Vec2f( 0, 10 ));
     }
     // draw caret
-    gl::drawSolidCircle( getPointFromYear( mCurYear ), 5);
+    gl::drawSolidCircle( mCurPt, 5);
 }
