@@ -120,3 +120,8 @@ Anim<ColorA> * CarouselImage::setShouldDrawText( const bool b, Anim<ci::ColorA> 
     }
     return NULL;
 }
+
+int CarouselImage::getYear() const
+{
+    return mYear;
+}

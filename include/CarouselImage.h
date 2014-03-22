@@ -36,6 +36,7 @@ public:
     float getWidth();
     void setShouldDraw(const bool b);
     bool getShouldDraw();
+    int getYear() const;
     ci::gl::Texture getTitleTexture();
     ci::gl::Texture getNamesTexture();
 };

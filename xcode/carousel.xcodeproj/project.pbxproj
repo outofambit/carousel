@@ -15,6 +15,7 @@
 		0138667418D1511300D03A08 /* CarouselImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0138667218D1511300D03A08 /* CarouselImage.cpp */; };
 		01C830AB18DC88250095E00F /* Finger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01C830A918DC88250095E00F /* Finger.cpp */; };
 		01C830AE18DD2F630095E00F /* FingerTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01C830AC18DD2F630095E00F /* FingerTracker.cpp */; };
+		01C830B118DD3B7E0095E00F /* Dateline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01C830AF18DD3B7E0095E00F /* Dateline.cpp */; };
 		01FFF65418D2DF250061545E /* carouselImageManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01FFF65218D2DF250061545E /* carouselImageManager.cpp */; };
 		2B0D962CEC9B46ADB35D4D9A /* carouselApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D97C640659A48388953C39A /* carouselApp.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
@@ -35,6 +36,8 @@
 		01C830AA18DC88250095E00F /* Finger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Finger.h; path = ../include/Finger.h; sourceTree = "<group>"; };
 		01C830AC18DD2F630095E00F /* FingerTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FingerTracker.cpp; path = ../src/FingerTracker.cpp; sourceTree = "<group>"; };
 		01C830AD18DD2F630095E00F /* FingerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FingerTracker.h; path = ../include/FingerTracker.h; sourceTree = "<group>"; };
+		01C830AF18DD3B7E0095E00F /* Dateline.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Dateline.cpp; path = ../src/Dateline.cpp; sourceTree = "<group>"; };
+		01C830B018DD3B7E0095E00F /* Dateline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Dateline.h; path = ../include/Dateline.h; sourceTree = "<group>"; };
 		01FFF65218D2DF250061545E /* carouselImageManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = carouselImageManager.cpp; path = ../src/carouselImageManager.cpp; sourceTree = "<group>"; };
 		01FFF65318D2DF250061545E /* carouselImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = carouselImageManager.h; path = ../include/carouselImageManager.h; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -80,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				6D97C640659A48388953C39A /* carouselApp.cpp */,
+				01C830AF18DD3B7E0095E00F /* Dateline.cpp */,
 				01C830AC18DD2F630095E00F /* FingerTracker.cpp */,
 				01C830A918DC88250095E00F /* Finger.cpp */,
 				01FFF65218D2DF250061545E /* carouselImageManager.cpp */,
@@ -140,6 +144,7 @@
 				01FFF65318D2DF250061545E /* carouselImageManager.h */,
 				01C830AA18DC88250095E00F /* Finger.h */,
 				01C830AD18DD2F630095E00F /* FingerTracker.h */,
+				01C830B018DD3B7E0095E00F /* Dateline.h */,
 				3020019247F54B2B9F4F414C /* Resources.h */,
 				5EF0E8D8A59B4B4387B029FA /* carousel_Prefix.pch */,
 			);
@@ -227,6 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01C830B118DD3B7E0095E00F /* Dateline.cpp in Sources */,
 				2B0D962CEC9B46ADB35D4D9A /* carouselApp.cpp in Sources */,
 				01FFF65418D2DF250061545E /* carouselImageManager.cpp in Sources */,
 				01C830AE18DD2F630095E00F /* FingerTracker.cpp in Sources */,

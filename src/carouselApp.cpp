@@ -4,6 +4,7 @@
 #include "CarouselImage.h"
 #include "carouselImageManager.h"
 #include "FingerTracker.h"
+#include "Dateline.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -25,6 +26,7 @@ class carouselApp : public AppNative {
     
     carouselImageManager cim;
     FingerTracker ft;
+    Dateline dl;
 };
 
 void carouselApp::prepareSettings( Settings *settings )
@@ -36,7 +38,8 @@ void carouselApp::setup()
 {
     setFullScreen(true);
     cim.setup();
-    ft.setup( &cim );
+    dl.setup();
+    ft.setup( &cim, &dl );
 }
 
 void carouselApp::touchesBegan( TouchEvent event )
@@ -78,6 +81,7 @@ void carouselApp::draw()
 	gl::clear( Color( 0, 0, 0 ) );
     gl::enableAlphaBlending();
     cim.draw();
+    dl.draw();
     ft.draw();
         
 }

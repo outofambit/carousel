@@ -116,6 +116,11 @@ void carouselImageManager::devance()
     mCIndex--;
 }
 
+int carouselImageManager::getCurYear() const
+{
+    return mCaims[mCIndex]->getYear();
+}
+
 bool carouselImageManager::hitCheck( Vec2f pt ) const
 {
     return mHitArea.contains( pt );

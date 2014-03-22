@@ -12,9 +12,10 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-void FingerTracker::setup( carouselImageManager *c )
+void FingerTracker::setup( carouselImageManager *c, Dateline *d )
 {
     cim = c;
+    dl = d;
 }
 
 void FingerTracker::touchesBegan( TouchEvent event )
@@ -40,10 +41,12 @@ void FingerTracker::touchesEnded(TouchEvent event)
         if (mFingers[touchIt->getId()].isLeftward() && cim->hitCheck(mFingers[touchIt->getId()].mStartPos))
         {
             cim->advance();
+            dl->goToYear(cim->getCurYear());
         }
         else if (mFingers[touchIt->getId()].isRightward() && cim->hitCheck(mFingers[touchIt->getId()].mStartPos))
         {
             cim->devance();
+            dl->goToYear(cim->getCurYear());
         }
 		mFingers.erase( touchIt->getId() );
 	}
