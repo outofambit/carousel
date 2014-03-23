@@ -12,6 +12,9 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
+FingerTracker::FingerTracker()
+{}
+
 void FingerTracker::setup( carouselImageManager *c, Dateline *d )
 {
     cim = c;
@@ -23,6 +26,9 @@ void FingerTracker::touchesBegan( TouchEvent event )
     for( vector<TouchEvent::Touch>::const_iterator touchIt = event.getTouches().begin(); touchIt != event.getTouches().end(); ++touchIt )
     {
         mFingers.insert( make_pair( touchIt -> getId(), Finger ( touchIt -> getPos() ) ) );
+        // dateline control tracking
+        if (dl->hitCheck( touchIt->getPos() ) )
+            mDatelineOwnerID = touchIt -> getId();
     }
 }
 
@@ -31,6 +37,10 @@ void FingerTracker::touchesMoved( TouchEvent event )
     for( vector<TouchEvent::Touch>::const_iterator touchIt = event.getTouches().begin(); touchIt != event.getTouches().end(); ++touchIt )
     {
         mFingers[touchIt->getId()].updatePos( touchIt->getPos() );
+        //dateline
+        if (touchIt->getId() == mDatelineOwnerID) {
+            dl->setCaretPoint(touchIt->getPos());
+        }
     }
 }
 
@@ -48,6 +58,14 @@ void FingerTracker::touchesEnded(TouchEvent event)
             cim->devance();
             dl->goToYear(cim->getCurYear());
         }
+        
+        //dateline
+        if ( touchIt->getId() == mDatelineOwnerID ) {
+            dl->goToPoint( touchIt->getPos() );
+            cim->goToYear( dl->getCurYear() );
+            mDatelineOwnerID = NULL;
+        }
+        
 		mFingers.erase( touchIt->getId() );
 	}
 }

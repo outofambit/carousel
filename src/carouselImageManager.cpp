@@ -66,6 +66,46 @@ void carouselImageManager::draw()
         i -> draw();
 }
 
+void carouselImageManager::goToYear(const int y)
+{
+    for ( auto caim : mCaims )
+    {
+        if ( caim->getYear() == y )
+        {
+            setCenterPhoto(caim);
+            return;
+        }
+    }
+}
+
+void carouselImageManager::setCenterPhoto(CarouselImage * const caim)
+{
+    for (int i = 0; i < mCaims.size(); i++) {
+        if (mCaims[i] == caim)
+        {
+            setCenterPhoto(i);
+            return;
+        }
+    }
+}
+
+void carouselImageManager::setCenterPhoto( const int c )
+{
+    for (auto caim : mCaims)
+        caim->setShouldDraw(false);
+    
+    mCIndex = c;
+    if ( caimsIndexCheck( mCIndex-2 ) )
+        sendOffSide(mCaims[mCIndex-2], true);
+    if ( caimsIndexCheck( mCIndex-1 ) )
+        sendToSide(mCaims[mCIndex-1], true);
+    sendCenter(mCaims[mCIndex]);
+    if ( caimsIndexCheck( mCIndex+1 ) )
+        sendToSide(mCaims[mCIndex+1], false);
+    if (caimsIndexCheck( mCIndex+2 ))
+        sendOffSide(mCaims[mCIndex+2], false);
+}
+
 void carouselImageManager::advance()
 {
     if ( mCIndex == mCaims.size()-1 )
@@ -81,10 +121,7 @@ void carouselImageManager::advance()
         sendOffSide( mCaims[mCIndex-1], true );
     animColor = sendToSide( mCaims[mCIndex], true );
     if ( caimsIndexCheck( mCIndex+1 ) && animColor)
-    {
-        mCaims[mCIndex+1] -> setPos( mCenterPos );
-        mCaims[mCIndex+1] -> setShouldDrawText( true, animColor);
-    }
+        sendCenter( mCaims[mCIndex+1], animColor );
     if (caimsIndexCheck( mCIndex+2 ))
         sendToSide( mCaims[mCIndex+2], false );
     mCIndex++;
@@ -106,10 +143,7 @@ void carouselImageManager::devance()
         sendOffSide( mCaims[mCIndex+1], false );
     animColor = sendToSide( mCaims[mCIndex], false );
     if ( caimsIndexCheck( mCIndex-1 ) && animColor)
-    {
-        mCaims[mCIndex-1] -> setPos( mCenterPos );
-        mCaims[mCIndex-1] -> setShouldDrawText( true, animColor);
-    }
+        sendCenter( mCaims[mCIndex-1], animColor );
     if ( caimsIndexCheck( mCIndex-2 ) )
         sendToSide( mCaims[mCIndex-2], true );
 
@@ -124,6 +158,13 @@ int carouselImageManager::getCurYear() const
 bool carouselImageManager::hitCheck( Vec2f pt ) const
 {
     return mHitArea.contains( pt );
+}
+
+void carouselImageManager::sendCenter(CarouselImage *const caim, Anim<ColorA> * triggerColor)
+{
+    caim->setShouldDraw(true);
+    caim->setPos( mCenterPos );
+    caim->setShouldDrawText( true, triggerColor);
 }
 
 Anim<ColorA> * carouselImageManager::sendToSide(CarouselImage * const caim, const bool toLeft)
@@ -157,6 +198,7 @@ void carouselImageManager::sendOffSide(CarouselImage * const caim, const bool to
     
     Vec2f lp = app::getWindowCenter() + Vec2f( (app::getWindowWidth() + caim->getWidth()) * d,0 );
     caim->setPos( lp );
+    caim->setShouldDraw(true);
 }
 
 bool carouselImageManager::caimsIndexCheck(const int i)

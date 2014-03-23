@@ -54,14 +54,52 @@ Vec2f Dateline::getPointFromYear(const int y) const
 }
 
 int Dateline::getYearFromPoint(const ci::Vec2f pt) const
-{   // clamping needed
-    return (mYears[mYears.size()-1] - mYears[0]) * ((pt - mStartPt) / (mEndPt - mStartPt)).x;
+{
+    int idealYear = mYears[0] + (mYears[mYears.size()-1] - mYears[0]) * (((pt - mStartPt) / (mEndPt - mStartPt)).x);
+    int lowestDiff = 1000000;
+    int closestYear = mYears[0];
+    for (auto y : mYears)
+    {
+        if (abs(idealYear-y) < lowestDiff) {
+            lowestDiff = abs(idealYear-y);
+            closestYear = y;
+        }
+    }
+    return closestYear;
 }
 
 void Dateline::goToYear(const int y)
 {
     mCurYear = y;
     app::timeline().apply(&mCurPt, getPointFromYear( mCurYear ), 0.25);
+}
+
+void Dateline::goToPoint(const Vec2f pt)
+{
+    goToYear( getYearFromPoint(pt) );
+    
+}
+
+void Dateline::setCaretPoint(const ci::Vec2f pt)
+{
+    if (pt.x > mEndPt.x)
+        mCurPt.value().x = mEndPt.x;
+    else if (pt.x < mStartPt.x)
+        mCurPt.value().x = mStartPt.x;
+    else
+        mCurPt.value().x = pt.x;
+}
+
+int Dateline::getCurYear() const
+{ return mCurYear; }
+
+bool Dateline::hitCheck(const ci::Vec2f pt) const
+{
+    if (mCurPt.value().distance(pt) < 30) {
+        return true;
+    }
+    
+    return false;
 }
 
 void Dateline::draw()

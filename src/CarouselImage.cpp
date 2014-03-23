@@ -9,6 +9,7 @@
 #include "CarouselImage.h"
 
 using namespace ci;
+using namespace std;
 
 CarouselImage::CarouselImage(const fs::path p)
 {
@@ -104,11 +105,21 @@ Anim<ColorA> * CarouselImage::setShouldDrawText( const bool b, Anim<ci::ColorA> 
     if ( b != mShouldDrawText )
     {
         mShouldDrawText = b;
-        if (b && triggerPtr)
+        if ( b )
         {
-            app::timeline().apply( &mTitleColor, ColorA(1,1,1,1), 0.5f, EaseInOutQuint()).appendTo( triggerPtr );
-            app::timeline().apply( &mNamesColor, ColorA(1,1,1,1), 0.5f, EaseInOutQuint()).appendTo( &mTitleColor );
-            return &mNamesColor;
+            if ( triggerPtr )
+            {
+                app::timeline().apply( &mTitleColor, ColorA(1,1,1,1), 0.5f, EaseInOutQuint()).appendTo( triggerPtr );
+                app::timeline().apply( &mNamesColor, ColorA(1,1,1,1), 0.5f, EaseInOutQuint()).appendTo( &mTitleColor );
+                return &mNamesColor;
+            }
+            else
+            {
+                app::timeline().apply( &mTitleColor, ColorA(1,1,1,1), 0.5f, EaseInOutQuint() );
+                app::timeline().apply( &mNamesColor, ColorA(1,1,1,1), 0.5f, EaseInOutQuint()).appendTo( &mTitleColor );
+                return &mNamesColor;
+            }
+
         }
         else
         {
