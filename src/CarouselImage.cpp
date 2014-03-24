@@ -85,11 +85,11 @@ void CarouselImage::draw()
         
         gl::color(mTitleColor);
         if ( mTitleTex )
-            gl::draw(mTitleTex, Vec2f(app::getWindowWidth()/2-mTitleTex.getWidth()/2, 200));
+            gl::draw(mTitleTex, Vec2f(app::getWindowWidth()/2-mTitleTex.getWidth()/2, 150));
         
         gl::color(mNamesColor);
         if ( mNamesTex )
-            gl::draw(mNamesTex, Vec2f(app::getWindowWidth()/2-mNamesTex.getWidth()/2, 600));
+            gl::draw(mNamesTex, Vec2f(app::getWindowWidth()/2-mNamesTex.getWidth()/2, 800));
         
     }
 }

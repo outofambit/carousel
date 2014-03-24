@@ -95,7 +95,7 @@ int Dateline::getCurYear() const
 
 bool Dateline::hitCheck(const ci::Vec2f pt) const
 {
-    if (mCurPt.value().distance(pt) < 30) {
+    if (mCurPt.value().distance(pt) < 60) {
         return true;
     }
     
