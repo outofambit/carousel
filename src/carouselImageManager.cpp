@@ -91,19 +91,23 @@ void carouselImageManager::setCenterPhoto(CarouselImage * const caim)
 
 void carouselImageManager::setCenterPhoto( const int c )
 {
-    for (auto caim : mCaims)
-        caim->setShouldDraw(false);
-    
     mCIndex = c;
-    if ( caimsIndexCheck( mCIndex-2 ) )
-        sendOffSide(mCaims[mCIndex-2], true);
-    if ( caimsIndexCheck( mCIndex-1 ) )
-        sendToSide(mCaims[mCIndex-1], true);
-    sendCenter(mCaims[mCIndex]);
-    if ( caimsIndexCheck( mCIndex+1 ) )
-        sendToSide(mCaims[mCIndex+1], false);
-    if (caimsIndexCheck( mCIndex+2 ))
-        sendOffSide(mCaims[mCIndex+2], false);
+    for (auto caim : mCaims)
+        caim->prepToReappear();
+    
+    
+    for (int i = 0; i < mCaims.size(); i++) {
+        if ( i <= mCIndex-2 )
+            sendOffSide(mCaims[i], true);
+        if ( i == ( mCIndex-1 ) )
+            sendToSide(mCaims[i], true);
+        if (i == mCIndex)
+            sendCenter(mCaims[i], mCaims[i]->getPhotoAnimColor());
+        if ( i == ( mCIndex+1 ) )
+            sendToSide(mCaims[i], false);
+        if ( i >= ( mCIndex+2 ))
+            sendOffSide(mCaims[i], false);
+    }
 }
 
 void carouselImageManager::advance()
@@ -196,7 +200,7 @@ void carouselImageManager::sendOffSide(CarouselImage * const caim, const bool to
     if ( toLeft )
         d = -1;
     
-    Vec2f lp = app::getWindowCenter() + Vec2f( (app::getWindowWidth() + caim->getWidth()) * d,0 );
+    Vec2f lp = app::getWindowCenter() + Vec2f( (app::getWindowWidth() + caim->getWidth()) * d, 0 );
     caim->setPos( lp );
     caim->setShouldDraw(true);
 }

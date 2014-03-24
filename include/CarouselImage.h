@@ -19,21 +19,23 @@ class CarouselImage {
     ci::gl::Texture             mTexture, mTitleTex, mNamesTex;
     ci::fs::path                mBasePath;
     ci::Anim<ci::Vec2f>         mPos, mBR;
-    ci::Anim<ci::ColorA>        mTitleColor, mNamesColor;
+    ci::Anim<ci::ColorA>        mTitleColor, mNamesColor, mPhotoColor;
     ci::Vec2f                   mOrigSize;
     ci::Rectf                   mArea;
     int                         mYear;
-    bool                        mShouldDraw, mShouldDrawText;
+    bool                        mShouldDraw, mShouldDrawText, mReappearing;
     
 public:
     CarouselImage(const ci::fs::path p);
     void setup();
     void update();
 	void draw();
+    void prepToReappear();
     void setPos (const ci::Vec2f new_pos);
     ci::Anim<ci::ColorA> * setShouldDrawText (const bool b, ci::Anim<ci::ColorA> * triggerPtr = NULL);
     void setWidth (const float width);
     float getWidth();
+    ci::Anim<ci::ColorA> * getPhotoAnimColor();
     void setShouldDraw(const bool b);
     bool getShouldDraw();
     int getYear() const;

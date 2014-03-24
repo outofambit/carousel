@@ -11,9 +11,11 @@
 using namespace ci;
 using namespace std;
 
-CarouselImage::CarouselImage(const fs::path p)
+CarouselImage::CarouselImage(const fs::path p)  :
+    mBasePath(p),
+    mPhotoColor(ColorA(1,1,1,1)),
+    mReappearing(false)
 {
-    mBasePath = p;
     mYear = std::atoi( p.filename().string().c_str() );
 }
 
@@ -33,9 +35,23 @@ gl::Texture CarouselImage::getNamesTexture()
     return loadImage( mBasePath / fs::path( "names.png" ) );
 }
 
+void CarouselImage::prepToReappear()
+{ mReappearing = true;  }
+
 void CarouselImage::setPos(const Vec2f new_pos)
 {
-    app::timeline().apply( &mPos, new_pos, 0.35f, EaseOutQuint() );
+    if ( mReappearing )
+    {
+        app::timeline().apply(&mPhotoColor, ColorA(1,1,1,0), 0.5, EaseNone());
+        app::timeline().apply(&mNamesColor, ColorA(1,1,1,0), 0.5, EaseNone());
+        app::timeline().apply(&mTitleColor, ColorA(1,1,1,0), 0.5, EaseNone());
+        app::timeline().apply( &mPos, new_pos, 0.35f, EaseOutQuint() ). appendTo(&mPhotoColor);
+        app::timeline().appendTo(&mPhotoColor, ColorA(1,1,1,1), 0.5, EaseNone()).appendTo(&mPos);
+        
+        mReappearing = false;
+    }
+    else
+        app::timeline().apply( &mPos, new_pos, 0.35f, EaseOutQuint() );
 }
 
 void CarouselImage::setWidth(const float width)
@@ -49,6 +65,9 @@ float CarouselImage::getWidth()
     return mBR.value().x;
 }
 
+Anim<ColorA> * CarouselImage::getPhotoAnimColor()
+{   return &mPhotoColor;    }
+
 void CarouselImage::update()
 {
     mArea.set(0, 0, mBR.value().x, mBR.value().y);
@@ -60,7 +79,7 @@ void CarouselImage::draw()
 {
     if (getShouldDraw())
     {
-        gl::color(1.0, 1.0, 1.0, 0.5);
+        gl::color(mPhotoColor);
         if ( mTexture )
             gl::draw( mTexture, mArea );
         
