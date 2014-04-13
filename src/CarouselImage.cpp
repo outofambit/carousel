@@ -14,7 +14,8 @@ using namespace std;
 CarouselImage::CarouselImage(const fs::path p)  :
     mBasePath(p),
     mPhotoColor(ColorA(1,1,1,1)),
-    mReappearing(false)
+    mReappearing(false),
+    mResizing(false)
 {
     mYear = std::atoi( p.filename().string().c_str() );
 }
@@ -45,7 +46,7 @@ void CarouselImage::setPos(const Vec2f new_pos)
         app::timeline().apply(&mPhotoColor, ColorA(1,1,1,0), 0.5, EaseNone());
         app::timeline().apply(&mNamesColor, ColorA(1,1,1,0), 0.5, EaseNone());
         app::timeline().apply(&mTitleColor, ColorA(1,1,1,0), 0.5, EaseNone());
-        app::timeline().apply( &mPos, new_pos, 0.35f, EaseOutQuint() ). appendTo(&mPhotoColor);
+        app::timeline().apply(&mPos, new_pos, 0.35f, EaseOutQuint() ). appendTo(&mPhotoColor);
         app::timeline().appendTo(&mPhotoColor, ColorA(1,1,1,1), 0.5, EaseNone()).appendTo(&mPos);
         
         mReappearing = false;
@@ -155,8 +156,25 @@ Anim<ColorA> * CarouselImage::setShouldDrawText( const bool b, Anim<ci::ColorA> 
     return NULL;
 }
 
+bool CarouselImage::hitCheck( const Vec2f pt ) const
+{ return mPhotoRect.contains( pt ); }
+
 bool CarouselImage::namesHitCheck(const ci::Vec2f pt) const
 { return mNamesRect.contains(pt); }
+
+void CarouselImage::resizePhoto( const float inflate_amt )
+{
+    if (! mResizing)
+        mOriginalWidth = mPhotoRect.getWidth();
+    mPhotoRect.inflate( Vec2f (inflate_amt, inflate_amt * mPhotoRect.getAspectRatio()) );
+    mResizing = true;
+}
+
+void CarouselImage::resetPhotoSize()
+{
+    setWidth(mOriginalWidth);
+    mResizing = false;
+}
 
 void CarouselImage::offsetNamesArea( Vec2f amt )
 {

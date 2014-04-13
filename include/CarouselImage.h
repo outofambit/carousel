@@ -25,7 +25,8 @@ class CarouselImage {
     ci::Rectf                   mPhotoRect, mNamesRect;
     ci::Area                    mNamesSrcArea;
     int                         mYear;
-    bool                        mShouldDraw, mShouldDrawText, mReappearing;
+    float                       mOriginalWidth;
+    bool                        mShouldDraw, mShouldDrawText, mReappearing, mResizing;
     
 public:
     CarouselImage( const ci::fs::path p );
@@ -41,8 +42,15 @@ public:
     void setShouldDraw( const bool b );
     bool getShouldDraw();
     int getYear() const;
+    // hitchecks
+    bool hitCheck( const ci::Vec2f pt ) const;
     bool namesHitCheck( const ci::Vec2f pt ) const;
+    // for pinch to zoom
+    void resizePhoto( const float inflate_amt );
+    void resetPhotoSize();
+    // for scrolling interaction of names area
     void offsetNamesArea( ci::Vec2f amt);
+    // convenience methods for loading/getting textures
     ci::gl::Texture getTitleTexture();
     ci::gl::Texture getNamesTexture();
 };
