@@ -27,8 +27,11 @@ void FingerTracker::touchesBegan( TouchEvent event )
     {
         mFingers.insert( make_pair( touchIt -> getId(), Finger ( touchIt -> getPos() ) ) );
         // dateline control tracking
-        if (dl->hitCheck( touchIt->getPos() ) )
-            mDatelineOwnerID = touchIt -> getId();
+        if ( dl->hitCheck( touchIt->getPos() ) )
+            mDatelineOwnerID = touchIt->getId();
+        // names image scrolling initial hit check
+        if ( cim->getCenterCaIm()->namesHitCheck( touchIt->getPos() ) )
+            mNamesOwnerID = touchIt->getId();
     }
 }
 
@@ -41,13 +44,18 @@ void FingerTracker::touchesMoved( TouchEvent event )
         if (touchIt->getId() == mDatelineOwnerID) {
             dl->setCaretPoint(touchIt->getPos());
         }
+        // names image scrolling
+        if (touchIt->getId() == mNamesOwnerID) {
+            cim->getCenterCaIm()->offsetNamesArea( Vec2f( 0, -mFingers[touchIt->getId()].lastYDiff() ) );
+        }
     }
 }
 
 void FingerTracker::touchesEnded(TouchEvent event)
 {
     for( vector<TouchEvent::Touch>::const_iterator touchIt = event.getTouches().begin(); touchIt != event.getTouches().end(); ++touchIt ) {
-
+        
+        // carousel advancement/devancement
         if (mFingers[touchIt->getId()].isLeftward() && cim->hitCheck(mFingers[touchIt->getId()].mStartPos))
         {
             cim->advance();
@@ -65,6 +73,9 @@ void FingerTracker::touchesEnded(TouchEvent event)
             cim->goToYear( dl->getCurYear() );
             mDatelineOwnerID = NULL;
         }
+        
+        if ( touchIt->getId() == mNamesOwnerID )
+            mNamesOwnerID = NULL;
         
 		mFingers.erase( touchIt->getId() );
 	}

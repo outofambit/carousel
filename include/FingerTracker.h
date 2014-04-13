@@ -20,6 +20,7 @@ class FingerTracker {
     carouselImageManager * cim;
     Dateline * dl;
     uint32_t mDatelineOwnerID;
+    uint32_t mNamesOwnerID;
     
 public:
     FingerTracker();

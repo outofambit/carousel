@@ -16,7 +16,7 @@ class Finger {
     
     public:
     
-    ci::Vec2f mStartPos, mCurPos;
+    ci::Vec2f mStartPos, mCurPos, mPrevPos;
     
     Finger();
     
@@ -27,6 +27,10 @@ class Finger {
     bool isLeftward() const;
     
     bool isRightward() const;
+    
+    float totalYDiff() const;
+    
+    float lastYDiff() const;
     
     void draw () const;
 };

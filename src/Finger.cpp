@@ -15,10 +15,14 @@ Finger::Finger()
 {}
 
 Finger::Finger ( const Vec2f startPos )
-{ mStartPos = startPos; }
+{ mStartPos = mPrevPos = mCurPos = startPos;
+}
 
 void Finger::updatePos( const Vec2f latestPos )
-{ mCurPos = latestPos; }
+{
+    mPrevPos = mCurPos;
+    mCurPos = latestPos;
+}
 
 bool Finger::isLeftward() const
 {
@@ -29,6 +33,13 @@ bool Finger::isRightward() const
 {
     return ( mCurPos-mStartPos ).x > 20;
 }
+
+float Finger::totalYDiff() const
+{ return (mCurPos - mStartPos).y; }
+
+float Finger::lastYDiff() const
+{ return (mCurPos - mPrevPos).y; }
+
 
 void Finger::draw () const
 {

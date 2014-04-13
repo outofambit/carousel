@@ -70,8 +70,8 @@ Anim<ColorA> * CarouselImage::getPhotoAnimColor()
 
 void CarouselImage::update()
 {
-    mArea.set(0, 0, mBR.value().x, mBR.value().y);
-    mArea.offsetCenterTo( mPos );
+    mPhotoRect.set(0, 0, mBR.value().x, mBR.value().y);
+    mPhotoRect.offsetCenterTo( mPos );
     
 }
 
@@ -81,7 +81,7 @@ void CarouselImage::draw()
     {
         gl::color(mPhotoColor);
         if ( mTexture )
-            gl::draw( mTexture, mArea );
+            gl::draw( mTexture, mPhotoRect );
         
         gl::color(mTitleColor);
         if ( mTitleTex )
@@ -89,7 +89,7 @@ void CarouselImage::draw()
         
         gl::color(mNamesColor);
         if ( mNamesTex )
-            gl::draw(mNamesTex, Vec2f(app::getWindowWidth()/2-mNamesTex.getWidth()/2, 800));
+            gl::draw(mNamesTex, mNamesSrcArea, mNamesRect);
         
     }
 }
@@ -102,6 +102,8 @@ void CarouselImage::setShouldDraw(const bool b)
         {
             mTitleTex = getTitleTexture();
             mNamesTex = getNamesTexture();
+            mNamesRect.set( 0, 0, mNamesTex.getWidth(), 75 );
+            mNamesRect.offsetCenterTo( Vec2f(app::getWindowWidth()/2, 900) );
         }
         
         else
@@ -126,6 +128,8 @@ Anim<ColorA> * CarouselImage::setShouldDrawText( const bool b, Anim<ci::ColorA> 
         mShouldDrawText = b;
         if ( b )
         {
+            mNamesSrcArea.set( 0, 0, mNamesRect.getWidth(), mNamesRect.getHeight() );
+            mNamesSrcArea.moveULTo( Vec2f(0,0) );
             if ( triggerPtr )
             {
                 app::timeline().apply( &mTitleColor, ColorA(1,1,1,1), 0.5f, EaseInOutQuint()).appendTo( triggerPtr );
@@ -151,7 +155,17 @@ Anim<ColorA> * CarouselImage::setShouldDrawText( const bool b, Anim<ci::ColorA> 
     return NULL;
 }
 
-int CarouselImage::getYear() const
+bool CarouselImage::namesHitCheck(const ci::Vec2f pt) const
+{ return mNamesRect.contains(pt); }
+
+void CarouselImage::offsetNamesArea( Vec2f amt )
 {
-    return mYear;
+    if ( mNamesSrcArea.getLR().y + amt.y >= mNamesTex.getHeight() )
+        amt.y = mNamesSrcArea.getLR().y - mNamesTex.getHeight();
+    else if ( mNamesSrcArea.getUL().y + amt.y <= 0 )
+        amt.y = -mNamesSrcArea.getUL().y;
+    mNamesSrcArea.offset( amt );
 }
+
+int CarouselImage::getYear() const
+{ return mYear; }
