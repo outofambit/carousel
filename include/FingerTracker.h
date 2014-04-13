@@ -21,6 +21,9 @@ class FingerTracker {
     Dateline * dl;
     uint32_t mDatelineOwnerID;
     uint32_t mNamesOwnerID;
+    std::vector<uint32_t> mPhotoOwnerIDs;
+    float mLastPinchSpread;
+    ci::Vec2f mLastPinchPos;
     
 public:
     FingerTracker();

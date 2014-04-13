@@ -35,8 +35,10 @@ public:
 	void draw();
     void prepToReappear();
     void setPos( const ci::Vec2f new_pos );
+    void incPosNow( const ci::Vec2f amt );
     ci::Anim<ci::ColorA> * setShouldDrawText ( const bool b, ci::Anim<ci::ColorA> * triggerPtr = NULL );
     void setWidth( const float width );
+    void setWidthNow( const float new_width );
     float getWidth();
     ci::Anim<ci::ColorA> * getPhotoAnimColor();
     void setShouldDraw( const bool b );

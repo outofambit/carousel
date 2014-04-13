@@ -46,7 +46,7 @@ void carouselImageManager::setup()
     mCaims[0] -> setShouldDraw(true);
     mCaims[0] -> setShouldDrawText(true);
     mCaims[1] -> setShouldDraw(true);
-    mCaims[1] -> setShouldDrawText(true);
+    mCaims[1] -> setShouldDrawText(false);
 }
 
 void carouselImageManager::mouseDown( app::MouseEvent event )

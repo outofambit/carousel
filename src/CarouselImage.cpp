@@ -55,10 +55,21 @@ void CarouselImage::setPos(const Vec2f new_pos)
         app::timeline().apply( &mPos, new_pos, 0.35f, EaseOutQuint() );
 }
 
+void CarouselImage::incPosNow(const ci::Vec2f amt)
+{
+    mPos = mPos.value() + amt;
+}
+
 void CarouselImage::setWidth(const float width)
 {
     const float height = width / mTexture.getAspectRatio();
     app::timeline().apply( &mBR, Vec2f(width, height), 0.25f, EaseInOutQuint());
+}
+
+void CarouselImage::setWidthNow(const float new_width)
+{
+    const float new_height = new_width / mTexture.getAspectRatio();
+    mBR = Vec2f( new_width, new_height );
 }
 
 float CarouselImage::getWidth()
@@ -166,7 +177,7 @@ void CarouselImage::resizePhoto( const float inflate_amt )
 {
     if (! mResizing)
         mOriginalWidth = mPhotoRect.getWidth();
-    mPhotoRect.inflate( Vec2f (inflate_amt, inflate_amt * mPhotoRect.getAspectRatio()) );
+    setWidthNow( getWidth() + inflate_amt );
     mResizing = true;
 }
 
