@@ -58,7 +58,6 @@ void FingerTracker::touchesMoved( TouchEvent event )
     Vec2f curPinchPos = (mFingers[mPhotoOwnerIDs[0]].mCurPos + mFingers[mPhotoOwnerIDs[1]].mCurPos) / 2;
       if (mLastPinchSpread != 0)
       {
-          app::console() << curPinchSpread << endl;
           cim->getCenterCaIm()->resizePhoto( curPinchSpread-mLastPinchSpread );
           cim->getCenterCaIm()->incPosNow( curPinchPos-mLastPinchPos );
       }
