@@ -132,22 +132,22 @@ Anim<ColorA> * CarouselImage::setShouldDrawText( const bool b, Anim<ci::ColorA> 
             mNamesSrcArea.moveULTo( Vec2f(0,0) );
             if ( triggerPtr )
             {
-                app::timeline().apply( &mTitleColor, ColorA(1,1,1,1), 0.5f, EaseInOutQuint()).appendTo( triggerPtr );
-                app::timeline().apply( &mNamesColor, ColorA(1,1,1,1), 0.5f, EaseInOutQuint()).appendTo( &mTitleColor );
+                app::timeline().apply( &mTitleColor, ColorA(1,1,1,1), 0.3f, EaseInOutQuint()).appendTo( triggerPtr );
+                app::timeline().apply( &mNamesColor, ColorA(1,1,1,1), 0.3f, EaseInOutQuint()).appendTo( &mTitleColor );
                 return &mNamesColor;
             }
             else
             {
-                app::timeline().apply( &mTitleColor, ColorA(1,1,1,1), 0.5f, EaseInOutQuint() );
-                app::timeline().apply( &mNamesColor, ColorA(1,1,1,1), 0.5f, EaseInOutQuint()).appendTo( &mTitleColor );
+                app::timeline().apply( &mTitleColor, ColorA(1,1,1,1), 0.3f, EaseInOutQuint() );
+                app::timeline().apply( &mNamesColor, ColorA(1,1,1,1), 0.3f, EaseInOutQuint()).appendTo( &mTitleColor );
                 return &mNamesColor;
             }
 
         }
         else
         {
-            app::timeline().apply( &mTitleColor, ColorA(1,1,1,0), 0.5f, EaseInOutQuint());
-            app::timeline().apply( &mNamesColor, ColorA(1,1,1,0), 0.5f, EaseInOutQuint());
+            app::timeline().apply( &mTitleColor, ColorA(1,1,1,0), 0.25f, EaseInOutQuint());
+            app::timeline().apply( &mNamesColor, ColorA(1,1,1,0), 0.25f, EaseInOutQuint());
             return &mTitleColor;
         }
 

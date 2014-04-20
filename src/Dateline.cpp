@@ -112,7 +112,7 @@ void Dateline::draw()
     for (int i = mYears[0] + (10 - mYears[0]%10); i < mYears[mYears.size()-1]; i+=10)
     {
         gl::drawLine( getPointFromYear(i) - Vec2f( 0, 10 ), getPointFromYear(i) + Vec2f( 0, 10 ));
-        gl::draw(mDecTexs[i], getPointFromYear( i ) + Vec2f( 0, 20 ));
+        gl::draw(mDecTexs[i], getPointFromYear( i ) - Vec2f (mDecTexs[i].getWidth()/2, 0) + Vec2f( 0, 25 ));
     }
     // draw caret
     gl::drawSolidTriangle( mCurPt.value()+Vec2f(0,2), mCurPt.value()+Vec2f( -8, 16 ), mCurPt.value()+Vec2f( 8, 16 ));
