@@ -45,7 +45,8 @@ void Dateline::setup()
         
     }
     
-    mCurYear = mYears[0];
+    goToYear( mYears[0] );
+    
 }
 
 Vec2f Dateline::getPointFromYear(const int y) const

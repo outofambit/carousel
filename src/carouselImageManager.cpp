@@ -43,10 +43,7 @@ void carouselImageManager::setup()
             mCaims . push_back( caim );
         }
     }
-    mCaims[0] -> setShouldDraw(true);
-    mCaims[0] -> setShouldDrawText(true);
-    mCaims[1] -> setShouldDraw(true);
-    mCaims[1] -> setShouldDrawText(true);
+    setCenterPhoto( 0 );
 }
 
 void carouselImageManager::mouseDown( app::MouseEvent event )
