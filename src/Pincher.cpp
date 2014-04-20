@@ -23,19 +23,22 @@ Pincher::Pincher()  :
 
 void Pincher::update()
 {
-    if (mResetTracking && mFinger.size() > 1) {
-        mStartPos = mCurPos = mPrevPos = (mFingers[0]->mCurPos + mFingers[1]->mCurPos) / 2
+    if (mResetTracking && mFingers.size() > 1) {
+        mStartPos = mCurPos = mPrevPos = (mFingers[0]->mCurPos + mFingers[1]->mCurPos) / 2;
         mStartSpread = mCurSpread = mPrevSpread = mFingers[0]->mCurPos.distance(mFingers[1]->mCurPos);
         mResetTracking = false;
     }
-    else {
-        
+    else if (mFingers.size() > 1) {
+        mPrevPos = mCurPos;
+        mCurPos = (mFingers[0]->mCurPos + mFingers[1]->mCurPos) / 2;
+        mPrevSpread = mCurSpread;
+        mCurSpread = mFingers[0]->mCurPos.distance(mFingers[1]->mCurPos);
     }
 }
 
 bool Pincher::hasFinger (Finger const * finger) const
 {
-    for( vector<Finger *>::iterator fingIt = mFingers.begin(); fingIt != mFingers.end(); ++fingIt ) {
+    for( vector<Finger *>::const_iterator fingIt = mFingers.cbegin(); fingIt != mFingers.cend(); ++fingIt ) {
         if (*fingIt == finger)
             return true;
     }
@@ -44,13 +47,11 @@ bool Pincher::hasFinger (Finger const * finger) const
 
 Vec2f Pincher::posChange() const
 {
-    update();
     return mCurPos - mPrevPos;
 }
 
 float Pincher::spreadChange() const
 {
-    update();
     return mCurSpread - mPrevSpread;
 }
 
