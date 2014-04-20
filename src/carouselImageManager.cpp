@@ -169,9 +169,9 @@ bool carouselImageManager::hitCheck( Vec2f pt ) const
 
 void carouselImageManager::sendCenter(CarouselImage *const caim, Anim<ColorA> * triggerColor)
 {
-    caim->setShouldDraw(true);
+    caim->setShouldDraw( true );
     caim->setPos( mCenterPos );
-    caim->setShouldDrawText( true, triggerColor);
+    caim->setShouldDrawText( true, triggerColor );
 }
 
 Anim<ColorA> * carouselImageManager::sendToSide(CarouselImage * const caim, const bool toLeft)

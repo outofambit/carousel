@@ -46,4 +46,5 @@ void Finger::draw () const
     // for debugging
     gl::color( 0, 1, 0 );
     gl::drawLine( mStartPos, mCurPos );
+    gl::drawSolidCircle( mCurPos, 10 );
 }

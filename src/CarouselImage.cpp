@@ -42,12 +42,12 @@ void CarouselImage::setPos(const Vec2f new_pos)
 {
     if ( mReappearing )
     {
-        app::timeline().apply(&mPhotoColor, ColorA(1,1,1,0), 0.5, EaseNone());
-        app::timeline().apply(&mNamesColor, ColorA(1,1,1,0), 0.5, EaseNone());
-        app::timeline().apply(&mTitleColor, ColorA(1,1,1,0), 0.5, EaseNone());
-        app::timeline().apply( &mPos, new_pos, 0.35f, EaseOutQuint() ). appendTo(&mPhotoColor);
-        app::timeline().appendTo(&mPhotoColor, ColorA(1,1,1,1), 0.5, EaseNone()).appendTo(&mPos);
-        
+        app::timeline().apply(&mPhotoColor, ColorA(1,1,1,0), 0.25, EaseNone());
+        app::timeline().apply(&mNamesColor, ColorA(1,1,1,0), 0.25, EaseNone());
+        app::timeline().apply(&mTitleColor, ColorA(1,1,1,0), 0.25, EaseNone());
+        app::timeline().apply( &mPos, new_pos, 0.01f, EaseNone() ). appendTo(&mPhotoColor);
+        app::timeline().appendTo(&mPhotoColor, ColorA(1,1,1,1), 0.25, EaseNone()).appendTo(&mPos);
+        mShouldDrawText = false;
         mReappearing = false;
     }
     else

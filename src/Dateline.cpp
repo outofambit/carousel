@@ -114,5 +114,5 @@ void Dateline::draw()
         gl::draw(mDecTexs[i], getPointFromYear( i ) + Vec2f( 0, 20 ));
     }
     // draw caret
-    gl::drawSolidTriangle( mCurPt.value()+Vec2f(0,2), mCurPt.value()+Vec2f( -5, 10 ), mCurPt.value()+Vec2f( 5, 10 ));
+    gl::drawSolidTriangle( mCurPt.value()+Vec2f(0,2), mCurPt.value()+Vec2f( -8, 16 ), mCurPt.value()+Vec2f( 8, 16 ));
 }
