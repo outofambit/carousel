@@ -14,15 +14,16 @@
 
 class Pincher {
     std::vector<Finger *> mFingers;
+    std::vector<Finger *> mUsingFingers;
     float mStartSpread, mCurSpread, mPrevSpread;
     ci::Vec2f mStartPos, mCurPos, mPrevPos;
     bool mResetTracking;
     
-    void update();
-    
 public:
     Pincher();
+    void update();
     bool hasFinger (Finger const * finger) const;
+    bool usingFinger (Finger const * finger) const;
     ci::Vec2f posChange() const;
     float spreadChange() const;
     void addFinger(Finger *f);

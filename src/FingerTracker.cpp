@@ -34,7 +34,7 @@ void FingerTracker::touchesBegan( TouchEvent event )
             mNamesOwnerID = touchIt->getId();
         // pinch to zoom init
         else if ( cim->getCenterCaIm()->hitCheck( touchIt->getPos() ) )
-            mPhotoOwnerIDs.push_back( touchIt->getId() );
+            pr.addFinger( &mFingers[touchIt->getId()] );
     }
 }
 
@@ -52,28 +52,20 @@ void FingerTracker::touchesMoved( TouchEvent event )
             cim->getCenterCaIm()->offsetNamesArea( Vec2f( 0, -mFingers[touchIt->getId()].lastYDiff() ) );
         }
     }
-    if (mPhotoOwnerIDs.size() == 2)
-    { float curPinchSpread = mFingers[mPhotoOwnerIDs[0]].mCurPos.distance(mFingers[mPhotoOwnerIDs[1]].mCurPos);
-        
-    Vec2f curPinchPos = (mFingers[mPhotoOwnerIDs[0]].mCurPos + mFingers[mPhotoOwnerIDs[1]].mCurPos) / 2;
-      if (mLastPinchSpread != 0)
-      {
-          cim->getCenterCaIm()->resizePhoto( curPinchSpread-mLastPinchSpread );
-          cim->getCenterCaIm()->incPosNow( curPinchPos-mLastPinchPos );
-      }
-        mLastPinchSpread = curPinchSpread;
-        mLastPinchPos = curPinchPos;
-        
-    }
+
+    pr.update();
+    cim->getCenterCaIm()->resizePhoto( pr.spreadChange() );
+    cim->getCenterCaIm()->incPosNow( pr.posChange() );
+    
 }
 
 void FingerTracker::touchesEnded(TouchEvent event)
 {
     for( vector<TouchEvent::Touch>::const_iterator touchIt = event.getTouches().begin(); touchIt != event.getTouches().end(); ++touchIt ) {
         
-        // carousel advancement/devancement
-        if (mPhotoOwnerIDs.size() < 2)
-        {
+        // only let single fingers interact that haven't been claimed by pincher
+        if ( ! pr.usingFinger(&mFingers[touchIt->getId()]) ) {
+            // carousel advancement/devancement
             if (mFingers[touchIt->getId()].isLeftward() && cim->hitCheck(mFingers[touchIt->getId()].mStartPos))
             {
                 cim->advance();
@@ -84,28 +76,16 @@ void FingerTracker::touchesEnded(TouchEvent event)
                 cim->devance();
                 dl->goToYear(cim->getCurYear());
             }
-        }
-        //dateline
-        if ( touchIt->getId() == mDatelineOwnerID ) {
-            dl->goToPoint( touchIt->getPos() );
-            cim->goToYear( dl->getCurYear() );
-            mDatelineOwnerID = NULL;
-        }
-        
-        if ( touchIt->getId() == mNamesOwnerID )
-            mNamesOwnerID = NULL;
-        //photo pinch tracking
-        vector<uint32_t>::iterator to_delete = mPhotoOwnerIDs.end();
-        for( vector<uint32_t>::iterator idIt = mPhotoOwnerIDs.begin(); idIt != mPhotoOwnerIDs.end(); ++idIt ) {
-            if (*idIt == touchIt->getId())
-                    to_delete = idIt;
+            //dateline
+            if ( touchIt->getId() == mDatelineOwnerID ) {
+                dl->goToPoint( touchIt->getPos() );
+                cim->goToYear( dl->getCurYear() );
+                mDatelineOwnerID = NULL;
             }
-        if ( to_delete != mPhotoOwnerIDs.end() )
-        {
-            mPhotoOwnerIDs.erase(to_delete);
-            mLastPinchPos = Vec2f( 0,0 );
-            mLastPinchSpread = 0;
         }
+        //photo pinch tracking
+        pr.removeFinger( &mFingers[touchIt->getId()] );
+        
 		mFingers.erase( touchIt->getId() );
 	}
 }

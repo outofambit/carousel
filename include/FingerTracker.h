@@ -12,11 +12,13 @@
 #include "Finger.h"
 #include "carouselImageManager.h"
 #include "Dateline.h"
+#include "Pincher.h"
 #include "cinder/app/App.h"
 #include <iostream>
 
 class FingerTracker {
     std::map<uint32_t,Finger> mFingers;
+    Pincher pr;
     carouselImageManager * cim;
     Dateline * dl;
     uint32_t mDatelineOwnerID;

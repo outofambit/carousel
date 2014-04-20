@@ -89,12 +89,7 @@ void CarouselImage::update()
 
 void CarouselImage::draw()
 {
-    if (getShouldDraw())
-    {
-        gl::color(mPhotoColor);
-        if ( mTexture )
-            gl::draw( mTexture, mPhotoRect );
-        
+    if (getShouldDraw()) {
         gl::color(mTitleColor);
         if ( mTitleTex )
             gl::draw(mTitleTex, Vec2f(app::getWindowWidth()/2-mTitleTex.getWidth()/2, 150));
@@ -103,6 +98,9 @@ void CarouselImage::draw()
         if ( mNamesTex )
             gl::draw(mNamesTex, mNamesSrcArea, mNamesRect);
         
+        gl::color(mPhotoColor);
+        if ( mTexture )
+            gl::draw( mTexture, mPhotoRect );
     }
 }
 
