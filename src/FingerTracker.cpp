@@ -64,7 +64,7 @@ void FingerTracker::touchesEnded(TouchEvent event)
     for( vector<TouchEvent::Touch>::const_iterator touchIt = event.getTouches().begin(); touchIt != event.getTouches().end(); ++touchIt ) {
         
         // only let single fingers interact that haven't been claimed by pincher
-        if ( ! pr.usingFinger(&mFingers[touchIt->getId()]) ) {
+        if ( ! cim->getCenterCaIm()->getResizing() && ! pr.usingFinger(&mFingers[touchIt->getId()]) ) {
             // carousel advancement/devancement
             if (mFingers[touchIt->getId()].isLeftward() && cim->hitCheck(mFingers[touchIt->getId()].mStartPos))
             {

@@ -39,10 +39,10 @@ public:
     ci::Anim<ci::ColorA> * setShouldDrawText ( const bool b, ci::Anim<ci::ColorA> * triggerPtr = NULL );
     void setWidth( const float width );
     void setWidthNow( const float new_width );
-    float getWidth();
+    float getWidth() const;
     ci::Anim<ci::ColorA> * getPhotoAnimColor();
     void setShouldDraw( const bool b );
-    bool getShouldDraw();
+    bool getShouldDraw() const;
     int getYear() const;
     // hitchecks
     bool hitCheck( const ci::Vec2f pt ) const;
@@ -50,6 +50,7 @@ public:
     // for pinch to zoom
     void resizePhoto( const float inflate_amt );
     void resetPhotoSize();
+    bool getResizing() const;
     // for scrolling interaction of names area
     void offsetNamesArea( ci::Vec2f amt);
     // convenience methods for loading/getting textures

@@ -72,10 +72,8 @@ void CarouselImage::setWidthNow(const float new_width)
     mBR = Vec2f( new_width, new_height );
 }
 
-float CarouselImage::getWidth()
-{
-    return mBR.value().x;
-}
+float CarouselImage::getWidth() const
+{ return mBR.value().x; }
 
 Anim<ColorA> * CarouselImage::getPhotoAnimColor()
 {   return &mPhotoColor;    }
@@ -131,10 +129,8 @@ void CarouselImage::setShouldDraw(const bool b)
     }
 }
 
-bool CarouselImage::getShouldDraw()
-{
-    return mShouldDraw;
-}
+bool CarouselImage::getShouldDraw() const
+{ return mShouldDraw; }
 
 Anim<ColorA> * CarouselImage::setShouldDrawText( const bool b, Anim<ci::ColorA> * triggerPtr)
 {
@@ -195,6 +191,9 @@ void CarouselImage::resetPhotoSize()
         mResizing = false;
     }
 }
+
+bool CarouselImage::getResizing() const
+{ return mResizing; }
 
 void CarouselImage::offsetNamesArea( Vec2f amt )
 {
