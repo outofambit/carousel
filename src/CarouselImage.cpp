@@ -98,6 +98,11 @@ void CarouselImage::draw()
         if ( mNamesTex )
             gl::draw(mNamesTex, mNamesSrcArea, mNamesRect);
         
+        if (mResizing) {
+            gl::color(0, 0, 0);
+            gl::drawSolidRect( Rectf(0,0,app::getWindowWidth(), app::getWindowHeight()) );
+        }
+        
         gl::color(mPhotoColor);
         if ( mTexture )
             gl::draw( mTexture, mPhotoRect );
@@ -173,16 +178,22 @@ bool CarouselImage::namesHitCheck(const ci::Vec2f pt) const
 
 void CarouselImage::resizePhoto( const float inflate_amt )
 {
-    if (! mResizing)
+    if ( inflate_amt == 0 )
+        return;
+    
+    if (! mResizing) {
         mOriginalWidth = mPhotoRect.getWidth();
+        mResizing = true;
+    }
     setWidthNow( getWidth() + inflate_amt );
-    mResizing = true;
 }
 
 void CarouselImage::resetPhotoSize()
 {
-    setWidth(mOriginalWidth);
-    mResizing = false;
+    if (mResizing) {
+        setWidth(mOriginalWidth);
+        mResizing = false;
+    }
 }
 
 void CarouselImage::offsetNamesArea( Vec2f amt )
