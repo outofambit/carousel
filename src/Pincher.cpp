@@ -58,6 +58,9 @@ bool Pincher::usingFinger(const Finger *finger) const
     return false;
 }
 
+bool Pincher::usingAnyFingers() const
+{ return mUsingFingers.size() == 0; }
+
 Vec2f Pincher::posChange() const
 {
     return mCurPos - mPrevPos;

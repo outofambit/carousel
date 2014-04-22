@@ -27,6 +27,7 @@ class CarouselImage {
     int                         mYear;
     float                       mOriginalWidth;
     bool                        mShouldDraw, mShouldDrawText, mReappearing, mResizing;
+    int                         mResizeRange, mPrevResizeRange;
     
 public:
     CarouselImage( const ci::fs::path p );
@@ -51,6 +52,7 @@ public:
     void resizePhoto( const float inflate_amt );
     void resetPhotoSize();
     bool getResizing() const;
+    void updateResizeRange();
     // for scrolling interaction of names area
     void offsetNamesArea( ci::Vec2f amt);
     // convenience methods for loading/getting textures

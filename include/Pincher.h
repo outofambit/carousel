@@ -24,6 +24,7 @@ public:
     void update();
     bool hasFinger (Finger const * finger) const;
     bool usingFinger (Finger const * finger) const;
+    bool usingAnyFingers () const;
     ci::Vec2f posChange() const;
     float spreadChange() const;
     void addFinger(Finger *f);

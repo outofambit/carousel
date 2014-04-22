@@ -56,7 +56,6 @@ void FingerTracker::touchesMoved( TouchEvent event )
     pr.update();
     cim->getCenterCaIm()->resizePhoto( pr.spreadChange() );
     cim->getCenterCaIm()->incPosNow( pr.posChange() );
-    
 }
 
 void FingerTracker::touchesEnded(TouchEvent event)
@@ -85,6 +84,8 @@ void FingerTracker::touchesEnded(TouchEvent event)
         }
         //photo pinch tracking
         pr.removeFinger( &mFingers[touchIt->getId()] );
+        if ( !pr.usingAnyFingers() )
+            cim->getCenterCaIm()->updateResizeRange();
         
 		mFingers.erase( touchIt->getId() );
 	}

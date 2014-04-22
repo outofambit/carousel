@@ -180,6 +180,7 @@ void CarouselImage::resizePhoto( const float inflate_amt )
     if (! mResizing) {
         mOriginalWidth = mPhotoRect.getWidth();
         mResizing = true;
+        mPrevResizeRange = mResizeRange = 0;
     }
     setWidthNow( getWidth() + inflate_amt );
 }
@@ -189,11 +190,35 @@ void CarouselImage::resetPhotoSize()
     if (mResizing) {
         setWidth(mOriginalWidth);
         mResizing = false;
+        setPos( app::getWindowCenter() );
     }
 }
 
 bool CarouselImage::getResizing() const
 { return mResizing; }
+
+void CarouselImage::updateResizeRange()
+{
+    if ( !mResizing )
+        return;
+    
+    mPrevResizeRange = mResizeRange;
+    if ( getWidth() > app::getWindowWidth() )
+        mResizeRange = 2;
+    else if ( getWidth() > mOriginalWidth )
+        mResizeRange = 1;
+    else
+        mResizeRange = 0;
+    
+    if ( mResizeRange == 1 && mPrevResizeRange == 0 )
+        setWidth( app::getWindowWidth() );
+    else if ( mResizeRange == 2 && mPrevResizeRange == 1 )
+        return;
+    else if ( mResizeRange == 1 && mPrevResizeRange == 2 )
+        resetPhotoSize();
+    else if ( mResizeRange == 0 && mPrevResizeRange == 1 )
+        resetPhotoSize();
+}
 
 void CarouselImage::offsetNamesArea( Vec2f amt )
 {
