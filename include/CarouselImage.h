@@ -25,7 +25,9 @@ class CarouselImage {
     ci::Rectf                   mPhotoRect, mNamesRect;
     ci::Area                    mNamesSrcArea;
     int                         mYear;
-    bool                        mShouldDraw, mShouldDrawText, mReappearing;
+    float                       mOriginalWidth;
+    bool                        mShouldDraw, mShouldDrawText, mReappearing, mResizing;
+    int                         mResizeRange, mPrevResizeRange;
     
 public:
     CarouselImage( const ci::fs::path p );
@@ -34,15 +36,26 @@ public:
 	void draw();
     void prepToReappear();
     void setPos( const ci::Vec2f new_pos );
+    void incPosNow( const ci::Vec2f amt );
     ci::Anim<ci::ColorA> * setShouldDrawText ( const bool b, ci::Anim<ci::ColorA> * triggerPtr = NULL );
     void setWidth( const float width );
-    float getWidth();
+    void setWidthNow( const float new_width );
+    float getWidth() const;
     ci::Anim<ci::ColorA> * getPhotoAnimColor();
     void setShouldDraw( const bool b );
-    bool getShouldDraw();
+    bool getShouldDraw() const;
     int getYear() const;
+    // hitchecks
+    bool hitCheck( const ci::Vec2f pt ) const;
     bool namesHitCheck( const ci::Vec2f pt ) const;
+    // for pinch to zoom
+    void resizePhoto( const float inflate_amt );
+    void resetPhotoSize();
+    bool getResizing() const;
+    void updateResizeRange();
+    // for scrolling interaction of names area
     void offsetNamesArea( ci::Vec2f amt);
+    // convenience methods for loading/getting textures
     ci::gl::Texture getTitleTexture();
     ci::gl::Texture getNamesTexture();
 };

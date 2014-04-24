@@ -54,13 +54,16 @@ void carouselImageManager::mouseDown( app::MouseEvent event )
 void carouselImageManager::update()
 {
     for (auto i : mCaims)
-        i -> update();
+        i->update();
 }
 
 void carouselImageManager::draw()
 {   // draw the images
-    for (auto i : mCaims)
-        i -> draw();
+    for (auto i : mCaims) {
+        if (i != mCaims[mCIndex])
+            i->draw();
+    }
+    mCaims[mCIndex]->draw();
 }
 
 void carouselImageManager::goToYear(const int y)
@@ -184,6 +187,7 @@ Anim<ColorA> * carouselImageManager::sendToSide(CarouselImage * const caim, cons
     
     Vec2f lp = app::getWindowCenter() + Vec2f( app::getWindowWidth() / 2 * d,0 );
     lp += Vec2f( ( caim -> getWidth() / 2 - 30) * d, 0 );
+    caim->resetPhotoSize();
     caim -> setPos( lp );
     caim -> setShouldDraw(true);
     return caim -> setShouldDrawText(false);
@@ -201,6 +205,7 @@ void carouselImageManager::sendOffSide(CarouselImage * const caim, const bool to
         d = -1;
     
     Vec2f lp = app::getWindowCenter() + Vec2f( (app::getWindowWidth() + caim->getWidth()) * d, 0 );
+    caim->resetPhotoSize();
     caim->setPos( lp );
     caim->setShouldDraw(true);
 }

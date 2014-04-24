@@ -14,7 +14,8 @@ using namespace std;
 CarouselImage::CarouselImage(const fs::path p)  :
     mBasePath(p),
     mPhotoColor(ColorA(1,1,1,1)),
-    mReappearing(false)
+    mReappearing(false),
+    mResizing(false)
 {
     mYear = std::atoi( p.filename().string().c_str() );
 }
@@ -54,16 +55,25 @@ void CarouselImage::setPos(const Vec2f new_pos)
         app::timeline().apply( &mPos, new_pos, 0.35f, EaseOutQuint() );
 }
 
+void CarouselImage::incPosNow(const ci::Vec2f amt)
+{
+    mPos = mPos.value() + amt;
+}
+
 void CarouselImage::setWidth(const float width)
 {
     const float height = width / mTexture.getAspectRatio();
     app::timeline().apply( &mBR, Vec2f(width, height), 0.25f, EaseInOutQuint());
 }
 
-float CarouselImage::getWidth()
+void CarouselImage::setWidthNow(const float new_width)
 {
-    return mBR.value().x;
+    const float new_height = new_width / mTexture.getAspectRatio();
+    mBR = Vec2f( new_width, new_height );
 }
+
+float CarouselImage::getWidth() const
+{ return mBR.value().x; }
 
 Anim<ColorA> * CarouselImage::getPhotoAnimColor()
 {   return &mPhotoColor;    }
@@ -77,12 +87,7 @@ void CarouselImage::update()
 
 void CarouselImage::draw()
 {
-    if (getShouldDraw())
-    {
-        gl::color(mPhotoColor);
-        if ( mTexture )
-            gl::draw( mTexture, mPhotoRect );
-        
+    if (getShouldDraw()) {
         gl::color(mTitleColor);
         if ( mTitleTex )
             gl::draw(mTitleTex, Vec2f(app::getWindowWidth()/2-mTitleTex.getWidth()/2, 150));
@@ -91,6 +96,14 @@ void CarouselImage::draw()
         if ( mNamesTex )
             gl::draw(mNamesTex, mNamesSrcArea, mNamesRect);
         
+        if (mResizing) {
+            gl::color(0, 0, 0);
+            gl::drawSolidRect( Rectf(0,0,app::getWindowWidth(), app::getWindowHeight()) );
+        }
+        
+        gl::color(mPhotoColor);
+        if ( mTexture )
+            gl::draw( mTexture, mPhotoRect );
     }
 }
 
@@ -116,10 +129,8 @@ void CarouselImage::setShouldDraw(const bool b)
     }
 }
 
-bool CarouselImage::getShouldDraw()
-{
-    return mShouldDraw;
-}
+bool CarouselImage::getShouldDraw() const
+{ return mShouldDraw; }
 
 Anim<ColorA> * CarouselImage::setShouldDrawText( const bool b, Anim<ci::ColorA> * triggerPtr)
 {
@@ -155,8 +166,59 @@ Anim<ColorA> * CarouselImage::setShouldDrawText( const bool b, Anim<ci::ColorA> 
     return NULL;
 }
 
+bool CarouselImage::hitCheck( const Vec2f pt ) const
+{ return mPhotoRect.contains( pt ); }
+
 bool CarouselImage::namesHitCheck(const ci::Vec2f pt) const
 { return mNamesRect.contains(pt); }
+
+void CarouselImage::resizePhoto( const float inflate_amt )
+{
+    if ( inflate_amt == 0 )
+        return;
+    
+    if (! mResizing) {
+        mOriginalWidth = mPhotoRect.getWidth();
+        mResizing = true;
+        mPrevResizeRange = mResizeRange = 0;
+    }
+    setWidthNow( getWidth() + inflate_amt );
+}
+
+void CarouselImage::resetPhotoSize()
+{
+    if (mResizing) {
+        setWidth(mOriginalWidth);
+        mResizing = false;
+        setPos( app::getWindowCenter() );
+    }
+}
+
+bool CarouselImage::getResizing() const
+{ return mResizing; }
+
+void CarouselImage::updateResizeRange()
+{
+    if ( !mResizing )
+        return;
+    
+    mPrevResizeRange = mResizeRange;
+    if ( getWidth() > app::getWindowWidth() )
+        mResizeRange = 2;
+    else if ( getWidth() > mOriginalWidth )
+        mResizeRange = 1;
+    else
+        mResizeRange = 0;
+    
+    if ( mResizeRange == 1 && mPrevResizeRange == 0 )
+        setWidth( app::getWindowWidth() );
+    else if ( mResizeRange == 2 && mPrevResizeRange == 1 )
+        return;
+    else if ( mResizeRange == 1 && mPrevResizeRange == 2 )
+        resetPhotoSize();
+    else if ( mResizeRange == 0 && mPrevResizeRange == 1 )
+        resetPhotoSize();
+}
 
 void CarouselImage::offsetNamesArea( Vec2f amt )
 {
