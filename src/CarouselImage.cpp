@@ -145,13 +145,13 @@ Anim<ColorA> * CarouselImage::setShouldDrawText( const bool b, Anim<ci::ColorA> 
             if ( triggerPtr )
             {
                 app::timeline().apply( &mTitleColor, ColorA(1,1,1,1), 0.3f, EaseInOutQuint()).appendTo( triggerPtr );
-                app::timeline().apply( &mNamesColor, ColorA(1,1,1,1), 0.3f, EaseInOutQuint()).appendTo( &mTitleColor );
+                app::timeline().apply( &mNamesColor, ColorA(1,1,1,1), 0.3f, EaseInOutQuint()).appendTo( triggerPtr );
                 return &mNamesColor;
             }
             else
             {
                 app::timeline().apply( &mTitleColor, ColorA(1,1,1,1), 0.3f, EaseInOutQuint() );
-                app::timeline().apply( &mNamesColor, ColorA(1,1,1,1), 0.3f, EaseInOutQuint()).appendTo( &mTitleColor );
+                app::timeline().apply( &mNamesColor, ColorA(1,1,1,1), 0.3f, EaseInOutQuint());
                 return &mNamesColor;
             }
 
@@ -217,7 +217,7 @@ void CarouselImage::updateResizeRange()
         return;
     else if ( mResizeRange == 1 && mPrevResizeRange == 2 )
         resetPhotoSize();
-    else if ( mResizeRange == 0 && mPrevResizeRange == 1 )
+    else if ( mResizeRange == 0 && (mPrevResizeRange == 1 ||  mPrevResizeRange == 2))
         resetPhotoSize();
 }
 
