@@ -24,6 +24,8 @@ class Finger {
     
     void updatePos( const ci::Vec2f latestPos );
     
+    ci::Vec2f posChange() const;
+    
     bool isLeftward() const;
     
     bool isRightward() const;

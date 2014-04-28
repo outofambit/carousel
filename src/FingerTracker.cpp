@@ -51,11 +51,15 @@ void FingerTracker::touchesMoved( TouchEvent event )
         if (touchIt->getId() == mNamesOwnerID) {
             cim->getCenterCaIm()->offsetNamesArea( Vec2f( 0, -mFingers[touchIt->getId()].lastYDiff() ) );
         }
+        // move zoomed photo with one finger
+        if (cim->getCenterCaIm()->getResizing() && pr.hasFinger(&mFingers[touchIt->getId()]) && ! pr.usingFinger(&mFingers[touchIt->getId()]))
+            cim->getCenterCaIm()->incPosNow(mFingers[touchIt->getId()].posChange());
     }
 
     pr.update();
     cim->getCenterCaIm()->resizePhoto( pr.spreadChange() );
     cim->getCenterCaIm()->incPosNow( pr.posChange() );
+        
 }
 
 void FingerTracker::touchesEnded(TouchEvent event)

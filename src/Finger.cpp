@@ -24,6 +24,9 @@ void Finger::updatePos( const Vec2f latestPos )
     mCurPos = latestPos;
 }
 
+Vec2f Finger::posChange() const
+{ return mCurPos - mPrevPos; }
+
 bool Finger::isLeftward() const
 {
     return ( mCurPos-mStartPos ).x < -20;
