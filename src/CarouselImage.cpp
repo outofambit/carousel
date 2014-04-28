@@ -204,7 +204,7 @@ void CarouselImage::updateResizeRange()
         return;
     
     mPrevResizeRange = mResizeRange;
-    if ( getWidth() > app::getWindowWidth() )
+    if ( getWidth() > app::getWindowWidth() * 0.9 )
         mResizeRange = 2;
     else if ( getWidth() > mOriginalWidth )
         mResizeRange = 1;
