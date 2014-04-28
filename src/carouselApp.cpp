@@ -78,11 +78,11 @@ void carouselApp::update()
 void carouselApp::draw()
 {
 	// clear out the window with black
-	gl::clear( Color( 0, 0, 0 ) );
+	gl::clear( Color( 0.0, 0.0, 0.25 ) );
     gl::enableAlphaBlending();
     dl.draw();
-    ft.draw();
     cim.draw();
+    ft.draw();
 }
 
 CINDER_APP_NATIVE( carouselApp, RendererGl )

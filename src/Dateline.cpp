@@ -13,7 +13,7 @@ using namespace ci;
 using namespace std;
 
 Dateline::Dateline()    :
-    mColor(1.0,1.0,0.0,1.0)
+    mColor(0.54,0.39,0.33,1.0)
 {}
 
 void Dateline::setup()
@@ -105,14 +105,14 @@ bool Dateline::hitCheck(const ci::Vec2f pt) const
 
 void Dateline::draw()
 {
-    gl::color(1.0, 1.0, 0.0);
+    gl::color(mColor);
     // draw line
     gl::drawLine(mStartPt, mEndPt);
     // draw hashes
     for (int i = mYears[0] + (10 - mYears[0]%10); i < mYears[mYears.size()-1]; i+=10)
     {
-        gl::drawLine( getPointFromYear(i) - Vec2f( 0, 10 ), getPointFromYear(i) + Vec2f( 0, 10 ));
-        gl::draw(mDecTexs[i], getPointFromYear( i ) - Vec2f (mDecTexs[i].getWidth()/2, 0) + Vec2f( 0, 25 ));
+        gl::drawLine( getPointFromYear(i) - Vec2f( 0, 20 ), getPointFromYear(i) );
+        gl::draw(mDecTexs[i], getPointFromYear( i ) - Vec2f (mDecTexs[i].getWidth()/2, 0) + Vec2f( 0, -50 ));
     }
     // draw caret
     gl::drawSolidTriangle( mCurPt.value()+Vec2f(0,2), mCurPt.value()+Vec2f( -8, 16 ), mCurPt.value()+Vec2f( 8, 16 ));

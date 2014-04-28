@@ -97,7 +97,8 @@ void CarouselImage::draw()
             gl::draw(mNamesTex, mNamesSrcArea, mNamesRect);
         
         if (mResizing) {
-            gl::color(0, 0, 0);
+            // todo: fade this in
+            gl::color(0.0, 0.0, 0.25);
             gl::drawSolidRect( Rectf(0,0,app::getWindowWidth(), app::getWindowHeight()) );
         }
         
