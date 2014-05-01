@@ -32,7 +32,7 @@ void carouselImageManager::setup()
     sort(dirs.begin(), dirs.end());
     
     for (vector<fs::path>::const_iterator it (dirs.begin()); it != dirs.end(); ++it)
-    {   if (fs::is_directory( *it ));
+    {   if ( fs::is_directory( *it ) && (it->filename().c_str()[0] != '.') );
         {
             CarouselImage * caim = new CarouselImage(*it);
             app::console() << *it << endl;

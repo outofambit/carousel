@@ -22,16 +22,23 @@ CarouselImage::CarouselImage(const fs::path p)  :
 
 void CarouselImage::setup()
 {
-    mTexture = gl::Texture( loadImage( mBasePath / fs::path( "photo.jpg" ) ) );
+    mTexture = getPhotoTexture();
     mBR = Vec2f( mTexture.getWidth(), mTexture.getHeight() );
 }
 
-gl::Texture CarouselImage::getTitleTexture()
+gl::Texture CarouselImage::getPhotoTexture() const
+{
+    char buffer [15];
+    sprintf(buffer, "photo-%i.jpg", mYear);
+    return loadImage( mBasePath / fs::path( buffer ) ) ;
+}
+
+gl::Texture CarouselImage::getTitleTexture() const
 {
     return loadImage( mBasePath / fs::path( "title.png" ) );
 }
 
-gl::Texture CarouselImage::getNamesTexture()
+gl::Texture CarouselImage::getNamesTexture() const
 {
     return loadImage( mBasePath / fs::path( "names.png" ) );
 }
