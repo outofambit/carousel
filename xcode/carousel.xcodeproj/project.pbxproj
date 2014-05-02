@@ -12,6 +12,7 @@
 		00B784B40FF439BC000DE1D7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B00FF439BC000DE1D7 /* AudioToolbox.framework */; };
 		00B784B50FF439BC000DE1D7 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B10FF439BC000DE1D7 /* AudioUnit.framework */; };
 		00B784B60FF439BC000DE1D7 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B20FF439BC000DE1D7 /* CoreAudio.framework */; };
+		0103655019133069002645CF /* BigImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0103654E19133069002645CF /* BigImageLoader.cpp */; };
 		0138667418D1511300D03A08 /* CarouselImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0138667218D1511300D03A08 /* CarouselImage.cpp */; };
 		017C423F18FB4D8E00BEC089 /* Pincher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 017C423D18FB4D8E00BEC089 /* Pincher.cpp */; };
 		01C830AB18DC88250095E00F /* Finger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01C830A918DC88250095E00F /* Finger.cpp */; };
@@ -31,6 +32,8 @@
 		00B784B00FF439BC000DE1D7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		00B784B10FF439BC000DE1D7 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		00B784B20FF439BC000DE1D7 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		0103654E19133069002645CF /* BigImageLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigImageLoader.cpp; path = ../src/BigImageLoader.cpp; sourceTree = "<group>"; };
+		0103654F19133069002645CF /* BigImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BigImageLoader.h; path = ../include/BigImageLoader.h; sourceTree = "<group>"; };
 		0138667218D1511300D03A08 /* CarouselImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CarouselImage.cpp; path = ../src/CarouselImage.cpp; sourceTree = "<group>"; };
 		0138667318D1511300D03A08 /* CarouselImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CarouselImage.h; path = ../include/CarouselImage.h; sourceTree = "<group>"; };
 		017C423D18FB4D8E00BEC089 /* Pincher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Pincher.cpp; path = ../src/Pincher.cpp; sourceTree = "<group>"; };
@@ -92,6 +95,7 @@
 				01C830A918DC88250095E00F /* Finger.cpp */,
 				01FFF65218D2DF250061545E /* carouselImageManager.cpp */,
 				0138667218D1511300D03A08 /* CarouselImage.cpp */,
+				0103654E19133069002645CF /* BigImageLoader.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -150,6 +154,7 @@
 				017C423E18FB4D8E00BEC089 /* Pincher.h */,
 				01C830AD18DD2F630095E00F /* FingerTracker.h */,
 				01C830B018DD3B7E0095E00F /* Dateline.h */,
+				0103654F19133069002645CF /* BigImageLoader.h */,
 				3020019247F54B2B9F4F414C /* Resources.h */,
 				5EF0E8D8A59B4B4387B029FA /* carousel_Prefix.pch */,
 			);
@@ -244,6 +249,7 @@
 				01C830AB18DC88250095E00F /* Finger.cpp in Sources */,
 				0138667418D1511300D03A08 /* CarouselImage.cpp in Sources */,
 				017C423F18FB4D8E00BEC089 /* Pincher.cpp in Sources */,
+				0103655019133069002645CF /* BigImageLoader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
