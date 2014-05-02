@@ -17,7 +17,7 @@
 
 class CarouselImage {
     
-    ci::gl::Texture             mTexture, mTitleTex, mNamesTex;
+    ci::gl::Texture             mTexture, mTitleTex, mNamesTex, mZoomTex;
     ci::fs::path                mBasePath;
     ci::Anim<ci::Vec2f>         mPos, mBR;
     ci::Anim<ci::ColorA>        mTitleColor, mNamesColor, mPhotoColor;

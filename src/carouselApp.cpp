@@ -5,6 +5,7 @@
 #include "carouselImageManager.h"
 #include "FingerTracker.h"
 #include "Dateline.h"
+#include "BigImageLoader.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -23,10 +24,12 @@ class carouselApp : public AppNative {
     
 	void update();
 	void draw();
+    void shutdown();
     
     carouselImageManager cim;
     FingerTracker ft;
     Dateline dl;
+    BigImageLoader bil;
 };
 
 void carouselApp::prepareSettings( Settings *settings )
@@ -40,6 +43,7 @@ void carouselApp::setup()
     cim.setup();
     dl.setup();
     ft.setup( &cim, &dl );
+    bil.setup();
 }
 
 void carouselApp::touchesBegan( TouchEvent event )
@@ -83,6 +87,11 @@ void carouselApp::draw()
     dl.draw();
     cim.draw();
     ft.draw();
+}
+
+void carouselApp::shutdown()
+{
+    bil.shutdown();
 }
 
 CINDER_APP_NATIVE( carouselApp, RendererGl )

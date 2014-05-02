@@ -7,6 +7,7 @@
 //
 
 #include "CarouselImage.h"
+#include "BigImageLoader.h"
 
 using namespace ci;
 using namespace std;
@@ -110,7 +111,15 @@ void CarouselImage::draw()
         }
         
         gl::color(mPhotoColor);
-        if ( mTexture )
+        gl::Texture photoTexture;
+        if ( mResizing && !mZoomTex && BigImageLoader::getBil()->getSurfaces()->isNotEmpty()) {
+            Surface newSurface;
+            BigImageLoader::getBil()->getSurfaces()->popBack( &newSurface );
+            mZoomTex = gl::Texture( newSurface );
+        }
+        if ( mZoomTex )
+            gl::draw( mZoomTex, mPhotoRect );
+        else if ( mTexture )
             gl::draw( mTexture, mPhotoRect );
     }
 }
@@ -187,8 +196,13 @@ void CarouselImage::resizePhoto( const float inflate_amt )
     
     if (! mResizing) {
         mOriginalWidth = mPhotoRect.getWidth();
-        mResizing = true;
         mPrevResizeRange = mResizeRange = 0;
+        
+        char buffer [15];
+        sprintf(buffer, "zoom-%i.jpg", mYear);
+        BigImageLoader::getBil()->loadBigImage( mBasePath / fs::path( buffer ) );
+        
+        mResizing = true;
     }
     setWidthNow( getWidth() + inflate_amt );
 }
@@ -197,6 +211,7 @@ void CarouselImage::resetPhotoSize()
 {
     if (mResizing) {
         setWidth(mOriginalWidth);
+        mZoomTex.reset();
         mResizing = false;
         setPos( app::getWindowCenter() );
     }
