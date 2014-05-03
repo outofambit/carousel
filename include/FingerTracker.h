@@ -23,13 +23,12 @@ class FingerTracker {
     Dateline * dl;
     uint32_t mDatelineOwnerID;
     uint32_t mNamesOwnerID;
-    std::vector<uint32_t> mPhotoOwnerIDs;
-    float mLastPinchSpread;
-    ci::Vec2f mLastPinchPos;
+    double mTimeOfLastTouch;
     
 public:
     FingerTracker();
     void setup( carouselImageManager *c, Dateline *d );
+    void update();
     void touchesBegan( ci::app::TouchEvent event );
     void touchesMoved( ci::app::TouchEvent event );
     void touchesEnded( ci::app::TouchEvent event );

@@ -19,6 +19,16 @@ void FingerTracker::setup( carouselImageManager *c, Dateline *d )
 {
     cim = c;
     dl = d;
+    mTimeOfLastTouch = getElapsedSeconds();
+}
+
+void FingerTracker::update()
+{
+    if ( getElapsedSeconds() - mTimeOfLastTouch > 300) {
+        dl->goToPoint( getWindowCenter() );
+        cim->goToYear( dl->getCurYear() );
+        mTimeOfLastTouch = getElapsedSeconds();
+    }
 }
 
 void FingerTracker::touchesBegan( TouchEvent event )
@@ -59,7 +69,8 @@ void FingerTracker::touchesMoved( TouchEvent event )
     pr.update();
     cim->getCenterCaIm()->resizePhoto( pr.spreadChange() );
     cim->getCenterCaIm()->incPosNow( pr.posChange() );
-        
+    
+    mTimeOfLastTouch = getElapsedSeconds();
 }
 
 void FingerTracker::touchesEnded(TouchEvent event)

@@ -28,6 +28,7 @@ public:
     void setCenterPhoto( const int c );
     void setCenterPhoto( CarouselImage * const caim );
     CarouselImage * getCenterCaIm() const;
+    int getNumOfCaIms() const;
     void goToYear (const int y);
     void advance();
     void devance();

@@ -106,6 +106,9 @@ void carouselImageManager::setCenterPhoto( const int c )
 CarouselImage * carouselImageManager::getCenterCaIm() const
 { return mCaims[mCIndex]; }
 
+int carouselImageManager::getNumOfCaIms() const
+{ return mCaims.size(); }
+
 void carouselImageManager::advance()
 {
     if ( mCIndex == mCaims.size()-1 )

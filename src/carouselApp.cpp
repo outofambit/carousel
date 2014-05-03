@@ -47,19 +47,13 @@ void carouselApp::setup()
 }
 
 void carouselApp::touchesBegan( TouchEvent event )
-{
-    ft.touchesBegan( event );
-}
+{ ft.touchesBegan( event ); }
 
 void carouselApp::touchesMoved( TouchEvent event )
-{
-    ft.touchesMoved( event );
-}
+{ ft.touchesMoved( event ); }
 
 void carouselApp::touchesEnded(TouchEvent event)
-{
-    ft.touchesEnded( event );
-}
+{ ft.touchesEnded( event ); }
 
 void carouselApp::keyDown( KeyEvent event )
 {
@@ -74,6 +68,7 @@ void carouselApp::mouseDown( MouseEvent event )
 
 void carouselApp::update()
 {
+    ft.update();
     cim.update();
 }
 
