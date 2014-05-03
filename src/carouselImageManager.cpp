@@ -32,7 +32,7 @@ void carouselImageManager::setup()
     sort(dirs.begin(), dirs.end());
     
     for (vector<fs::path>::const_iterator it (dirs.cbegin()); it != dirs.cend(); ++it) {
-        if ( fs::is_directory( *it ) && it->filename().c_str()[0] != '.') {
+        if ( fs::is_directory( *it ) && !fs::is_empty( *it ) && it->filename().c_str()[0] != '.') {
             CarouselImage * caim = new CarouselImage(*it);
             caim -> setup();
             caim -> setWidth( app::getWindowWidth()/2 );

@@ -27,7 +27,7 @@ void Dateline::setup()
     sort(dirs.begin(), dirs.end());
     
     for (vector<fs::path>::const_iterator it (dirs.begin()); it != dirs.end(); ++it) {
-        if (fs::is_directory( *it ) && it->filename().c_str()[0] != '.') {
+        if (fs::is_directory( *it ) && ! fs::is_empty( *it ) && it->filename().c_str()[0] != '.') {
             mYears.push_back( std::atoi( it->filename().string().c_str() ) );
         }
     }
