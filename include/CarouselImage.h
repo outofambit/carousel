@@ -56,9 +56,9 @@ public:
     // for scrolling interaction of names area
     void offsetNamesArea( ci::Vec2f amt);
     // convenience methods for loading/getting textures
-    ci::gl::Texture getPhotoTexture() const;
-    ci::gl::Texture getTitleTexture() const;
-    ci::gl::Texture getNamesTexture() const;
+    bool getPhotoTexture(ci::gl::Texture *into);
+    bool getTitleTexture(ci::gl::Texture *into);
+    bool getNamesTexture(ci::gl::Texture *into);
 };
 
 #endif /* defined(__carousel__CarouselImage__) */

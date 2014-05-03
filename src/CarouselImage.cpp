@@ -23,25 +23,45 @@ CarouselImage::CarouselImage(const fs::path p)  :
 
 void CarouselImage::setup()
 {
-    mTexture = getPhotoTexture();
-    mBR = Vec2f( mTexture.getWidth(), mTexture.getHeight() );
+    getPhotoTexture( &mTexture );
+    if (mTexture)
+        mBR = Vec2f( mTexture.getWidth(), mTexture.getHeight() );
 }
 
-gl::Texture CarouselImage::getPhotoTexture() const
+bool CarouselImage::getPhotoTexture(gl::Texture *into)
 {
     char buffer [15];
     sprintf(buffer, "photo-%i.jpg", mYear);
-    return loadImage( mBasePath / fs::path( buffer ) ) ;
+    if (fs::exists( mBasePath / fs::path( buffer ))) {
+        *into = loadImage( mBasePath / fs::path( buffer ) );
+        return true;
+    }
+    app::console() << "couldn't get " << buffer << endl;
+    return false;
 }
 
-gl::Texture CarouselImage::getTitleTexture() const
+bool CarouselImage::getTitleTexture(gl::Texture *into)
 {
-    return loadImage( mBasePath / fs::path( "title.png" ) );
+    char buffer [15];
+    sprintf( buffer, "title-%i.png", mYear );
+    if (fs::exists( mBasePath / fs::path( buffer ))) {
+        *into = loadImage( mBasePath / fs::path( buffer ) );
+        return true;
+    }
+    app::console() << "couldn't get " << buffer << endl;
+    return false;
 }
 
-gl::Texture CarouselImage::getNamesTexture() const
+bool CarouselImage::getNamesTexture(gl::Texture *into)
 {
-    return loadImage( mBasePath / fs::path( "names.png" ) );
+    char buffer [15];
+    sprintf( buffer, "names-%i.png", mYear );
+    if (fs::exists( mBasePath / fs::path( buffer ))) {
+        *into = loadImage( mBasePath / fs::path( buffer ) );
+        return true;
+    }
+    app::console() << "couldn't get " << buffer << endl;
+    return false;
 }
 
 void CarouselImage::prepToReappear()
@@ -70,14 +90,18 @@ void CarouselImage::incPosNow(const ci::Vec2f amt)
 
 void CarouselImage::setWidth(const float width)
 {
-    const float height = width / mTexture.getAspectRatio();
-    app::timeline().apply( &mBR, Vec2f(width, height), 0.25f, EaseInOutQuint());
+    if (mTexture) {
+        const float height = width / mTexture.getAspectRatio();
+        app::timeline().apply( &mBR, Vec2f(width, height), 0.25f, EaseInOutQuint());
+    }
 }
 
 void CarouselImage::setWidthNow(const float new_width)
 {
-    const float new_height = new_width / mTexture.getAspectRatio();
-    mBR = Vec2f( new_width, new_height );
+    if (mTexture) {
+        const float new_height = new_width / mTexture.getAspectRatio();
+        mBR = Vec2f( new_width, new_height );
+    }
 }
 
 float CarouselImage::getWidth() const
@@ -130,10 +154,12 @@ void CarouselImage::setShouldDraw(const bool b)
     {
         if ( b )
         {
-            mTitleTex = getTitleTexture();
-            mNamesTex = getNamesTexture();
-            mNamesRect.set( 0, 0, mNamesTex.getWidth(), 75 );
-            mNamesRect.offsetCenterTo( Vec2f(app::getWindowWidth()/2, 900) );
+            getTitleTexture( &mTitleTex );
+            getNamesTexture( &mNamesTex );
+            if (mNamesTex) {
+                mNamesRect.set( 0, 0, mNamesTex.getWidth(), 75 );
+                mNamesRect.offsetCenterTo( Vec2f(app::getWindowWidth()/2, 900) );
+            }
         }
         
         else
@@ -245,6 +271,8 @@ void CarouselImage::updateResizeRange()
 
 void CarouselImage::offsetNamesArea( Vec2f amt )
 {
+    if ( !mNamesTex )
+        return;
     if ( mNamesSrcArea.getLR().y + amt.y >= mNamesTex.getHeight() )
         amt.y = mNamesSrcArea.getLR().y - mNamesTex.getHeight();
     else if ( mNamesSrcArea.getUL().y + amt.y <= 0 )

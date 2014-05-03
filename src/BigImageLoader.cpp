@@ -37,7 +37,10 @@ void BigImageLoader::shutdown()
 void BigImageLoader::threadFunc (fs::path imagePath)
 {
     ThreadSetup threadSetup;
-    mSurfaces->pushFront( loadImage( imagePath ) );
+    if ( fs::exists( imagePath ) )
+        mSurfaces->pushFront( loadImage( imagePath ) );
+    else
+        app::console() << "couldn't get " << imagePath << " because it doesn't exist" << endl;
 }
 
 void BigImageLoader::loadBigImage (fs::path imagePath)
