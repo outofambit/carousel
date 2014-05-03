@@ -85,6 +85,9 @@ void FingerTracker::touchesEnded(TouchEvent event)
                 cim->goToYear( dl->getCurYear() );
                 mDatelineOwnerID = NULL;
             }
+            //names scrolling
+            if ( touchIt->getId() == mNamesOwnerID )
+                mNamesOwnerID = NULL;
         }
         //photo pinch tracking
         pr.removeFinger( &mFingers[touchIt->getId()] );
