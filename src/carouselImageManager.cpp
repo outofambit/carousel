@@ -31,11 +31,9 @@ void carouselImageManager::setup()
     copy(fs::directory_iterator("/Users/Nick/src/carousel/assets/photos/"), fs::directory_iterator(), back_inserter(dirs));
     sort(dirs.begin(), dirs.end());
     
-    for (vector<fs::path>::const_iterator it (dirs.begin()); it != dirs.end(); ++it)
-    {   if ( fs::is_directory( *it ) && (it->filename().c_str()[0] != '.') );
-        {
+    for (vector<fs::path>::const_iterator it (dirs.cbegin()); it != dirs.cend(); ++it) {
+        if ( fs::is_directory( *it ) && it->filename().c_str()[0] != '.') {
             CarouselImage * caim = new CarouselImage(*it);
-            app::console() << *it << endl;
             caim -> setup();
             caim -> setWidth( app::getWindowWidth()/2 );
             caim -> setShouldDraw( false );
@@ -44,11 +42,6 @@ void carouselImageManager::setup()
         }
     }
     setCenterPhoto( 0 );
-}
-
-void carouselImageManager::mouseDown( app::MouseEvent event )
-{
-
 }
 
 void carouselImageManager::update()

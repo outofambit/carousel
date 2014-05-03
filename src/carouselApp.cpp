@@ -70,9 +70,7 @@ void carouselApp::keyDown( KeyEvent event )
 }
 
 void carouselApp::mouseDown( MouseEvent event )
-{
-    cim.mouseDown(event);
-}
+{ }
 
 void carouselApp::update()
 {

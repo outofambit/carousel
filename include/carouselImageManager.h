@@ -25,7 +25,6 @@ public:
     void setup();
     void update();
     void draw();
-    void mouseDown( ci::app::MouseEvent event );
     void setCenterPhoto( const int c );
     void setCenterPhoto( CarouselImage * const caim );
     CarouselImage * getCenterCaIm() const;

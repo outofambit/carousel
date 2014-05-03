@@ -26,9 +26,8 @@ void Dateline::setup()
     copy(fs::directory_iterator("/Users/Nick/src/carousel/assets/photos/"), fs::directory_iterator(), back_inserter(dirs));
     sort(dirs.begin(), dirs.end());
     
-    for (vector<fs::path>::const_iterator it (dirs.begin()); it != dirs.end(); ++it)
-    {   if (fs::is_directory( *it ));
-        {
+    for (vector<fs::path>::const_iterator it (dirs.begin()); it != dirs.end(); ++it) {
+        if (fs::is_directory( *it ) && it->filename().c_str()[0] != '.') {
             mYears.push_back( std::atoi( it->filename().string().c_str() ) );
         }
     }
