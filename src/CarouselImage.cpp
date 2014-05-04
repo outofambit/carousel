@@ -117,6 +117,24 @@ void CarouselImage::update()
     
 }
 
+void CarouselImage::setHeight(const float height)
+{
+    if (mTexture) {
+        const float new_width = height * mTexture.getAspectRatio();
+        mBR = Vec2f( new_width, height );
+    }
+}
+
+void CarouselImage::setWidthOrHeight(const ci::Vec2f w_by_h)
+{
+    if (mTexture) {
+        if (w_by_h.x > w_by_h.y)
+            setHeight(w_by_h.y);
+        else
+            setWidth(w_by_h.x);
+    }
+}
+
 void CarouselImage::draw()
 {
     if (getShouldDraw()) {

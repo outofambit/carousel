@@ -35,7 +35,7 @@ void carouselImageManager::setup()
         if ( fs::is_directory( *it ) && !fs::is_empty( *it ) && it->filename().c_str()[0] != '.') {
             CarouselImage * caim = new CarouselImage(*it);
             caim -> setup();
-            caim -> setWidth( app::getWindowWidth()/2 );
+            caim -> setWidthOrHeight( Vec2f(app::getWindowWidth()*0.75, app::getWindowHeight()/3) );
             caim -> setShouldDraw( false );
             sendOffSide( caim, false );
             mCaims . push_back( caim );

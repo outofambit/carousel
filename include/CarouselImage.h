@@ -38,9 +38,13 @@ public:
     void setPos( const ci::Vec2f new_pos );
     void incPosNow( const ci::Vec2f amt );
     ci::Anim<ci::ColorA> * setShouldDrawText ( const bool b, ci::Anim<ci::ColorA> * triggerPtr = NULL );
+    // size getters and setters
     void setWidth( const float width );
     void setWidthNow( const float new_width );
     float getWidth() const;
+    void setHeight( const float height );
+    float getHeight() const;
+    void setWidthOrHeight ( const ci::Vec2f w_by_h );
     ci::Anim<ci::ColorA> * getPhotoAnimColor();
     void setShouldDraw( const bool b );
     bool getShouldDraw() const;
