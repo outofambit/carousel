@@ -121,14 +121,14 @@ void CarouselImage::setHeight(const float height)
 {
     if (mTexture) {
         const float new_width = height * mTexture.getAspectRatio();
-        mBR = Vec2f( new_width, height );
+        app::timeline().apply( &mBR, Vec2f(new_width, height), 0.25f, EaseInOutQuint());
     }
 }
 
 void CarouselImage::setWidthOrHeight(const ci::Vec2f w_by_h)
 {
     if (mTexture) {
-        if (w_by_h.x > w_by_h.y)
+        if (mTexture.getAspectRatio() < w_by_h.x/w_by_h.y)
             setHeight(w_by_h.y);
         else
             setWidth(w_by_h.x);
@@ -277,13 +277,13 @@ void CarouselImage::updateResizeRange()
     else
         mResizeRange = 0;
     
-    if ( mResizeRange == 1 && mPrevResizeRange == 0 )
-        setWidth( app::getWindowWidth() );
-    else if ( mResizeRange == 2 && mPrevResizeRange == 1 )
-        return;
-    else if ( mResizeRange == 1 && mPrevResizeRange == 2 )
+    if ( mResizeRange == 1 && mPrevResizeRange == 0 ) {
+        setWidthOrHeight( Vec2f(app::getWindowWidth(),app::getWindowHeight()) );
+        setPos( app::getWindowCenter() );
+    }
+    else if ( mResizeRange == 1 && mPrevResizeRange != 1 )
         resetPhotoSize();
-    else if ( mResizeRange == 0 && (mPrevResizeRange == 1 ||  mPrevResizeRange == 2))
+    else if ( mResizeRange == 0 )
         resetPhotoSize();
 }
 
