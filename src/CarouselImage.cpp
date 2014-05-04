@@ -36,7 +36,7 @@ bool CarouselImage::getPhotoTexture(gl::Texture *into)
         *into = loadImage( mBasePath / fs::path( buffer ) );
         return true;
     }
-    app::console() << "couldn't get " << buffer << endl;
+    app::console() << "couldn't load " << buffer << endl;
     return false;
 }
 
@@ -48,7 +48,7 @@ bool CarouselImage::getTitleTexture(gl::Texture *into)
         *into = loadImage( mBasePath / fs::path( buffer ) );
         return true;
     }
-    app::console() << "couldn't get " << buffer << endl;
+    app::console() << "couldn't load " << buffer << endl;
     return false;
 }
 
@@ -60,7 +60,7 @@ bool CarouselImage::getNamesTexture(gl::Texture *into)
         *into = loadImage( mBasePath / fs::path( buffer ) );
         return true;
     }
-    app::console() << "couldn't get " << buffer << endl;
+    app::console() << "couldn't load " << buffer << endl;
     return false;
 }
 
