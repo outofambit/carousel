@@ -107,11 +107,13 @@ void Dateline::draw()
     // draw line
     gl::drawLine(mStartPt, mEndPt);
     // draw hashes
-    for (int i = mYears[0] + (10 - mYears[0]%10); i < mYears[mYears.size()-1]; i+=10)
-    {
+    for (int i = mYears[0] + (10 - mYears[0]%10); i < mYears[mYears.size()-1]; i+=10) {
+        gl::color(mColor);
         gl::drawLine( getPointFromYear(i) - Vec2f( 0, 20 ), getPointFromYear(i) );
+        gl::color(Color::white());
         gl::draw(mDecTexs[i], getPointFromYear( i ) - Vec2f (mDecTexs[i].getWidth()/2, 0) + Vec2f( 0, -50 ));
     }
     // draw caret
+    gl::color(mColor);
     gl::drawSolidTriangle( mCurPt.value()+Vec2f(0,2), mCurPt.value()+Vec2f( -8, 16 ), mCurPt.value()+Vec2f( 8, 16 ));
 }
