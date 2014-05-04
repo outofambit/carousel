@@ -16,7 +16,6 @@ class carouselApp : public AppNative {
     void prepareSettings( Settings *settings );
 	void setup();
     
-	void mouseDown( MouseEvent event );
     void keyDown(KeyEvent event);
     void touchesBegan( TouchEvent event );
 	void touchesMoved( TouchEvent event );
@@ -57,14 +56,9 @@ void carouselApp::touchesEnded(TouchEvent event)
 
 void carouselApp::keyDown( KeyEvent event )
 {
-    if ( event.getChar() == 'n' )
-        cim.advance();
-    else if ( event.getChar() == 'b' )
-        cim.devance();
+    if ( event.getCode() == app::KeyEvent::KEY_ESCAPE )
+        quit();
 }
-
-void carouselApp::mouseDown( MouseEvent event )
-{ }
 
 void carouselApp::update()
 {
