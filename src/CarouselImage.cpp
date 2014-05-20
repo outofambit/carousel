@@ -140,7 +140,7 @@ void CarouselImage::draw()
     if (getShouldDraw()) {
         gl::color(mTitleColor);
         if ( mTitleTex )
-            gl::draw(mTitleTex, Vec2f(app::getWindowWidth()/2-mTitleTex.getWidth()/2, 150));
+            gl::draw(mTitleTex, Vec2f(app::getWindowWidth()/2-mTitleTex.getWidth()/2, 200));
         
         gl::color(mNamesColor);
         if ( mNamesTex )
@@ -175,8 +175,8 @@ void CarouselImage::setShouldDraw(const bool b)
             getTitleTexture( &mTitleTex );
             getNamesTexture( &mNamesTex );
             if (mNamesTex) {
-                mNamesRect.set( 0, 0, mNamesTex.getWidth(), 75 );
-                mNamesRect.offsetCenterTo( Vec2f(app::getWindowWidth()/2, 900) );
+                mNamesRect.set( 0, 0, mNamesTex.getWidth()*0.7, 200 );
+                mNamesRect.offsetCenterTo( Vec2f(app::getWindowWidth()/2, 920) );
             }
         }
         
@@ -200,8 +200,10 @@ Anim<ColorA> * CarouselImage::setShouldDrawText( const bool b, Anim<ci::ColorA> 
         mShouldDrawText = b;
         if ( b )
         {
-            mNamesSrcArea.set( 0, 0, mNamesRect.getWidth(), mNamesRect.getHeight() );
-            mNamesSrcArea.moveULTo( Vec2f(0,0) );
+            if (mNamesTex) {
+                mNamesSrcArea.set( 0, 0, mNamesTex.getWidth(), mNamesTex.getWidth() / mNamesRect.getAspectRatio() );
+                mNamesSrcArea.moveULTo( Vec2f(0,0) );
+            }
             if ( triggerPtr )
             {
                 app::timeline().apply( &mTitleColor, ColorA(1,1,1,1), 0.3f, EaseInOutQuint()).appendTo( triggerPtr );
