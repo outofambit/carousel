@@ -18,7 +18,7 @@ CarouselImage::CarouselImage(const fs::path p)  :
     mReappearing(false),
     mResizing(false)
 {
-    mYear = std::atoi( p.filename().c_str() );
+    mYear = std::atoi( p.filename().string().c_str() );
 }
 
 void CarouselImage::setup()

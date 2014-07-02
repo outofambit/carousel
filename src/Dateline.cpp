@@ -23,7 +23,7 @@ void Dateline::setup()
     mEndPt = Vec2f( app::getWindowWidth() * 0.9, xAxis );
     
     vector<fs::path> dirs;
-    copy(fs::directory_iterator("/Users/Nick/src/carousel/assets/photos/"), fs::directory_iterator(), back_inserter(dirs));
+    copy(fs::directory_iterator(app::getAssetPath("photos")), fs::directory_iterator(), back_inserter(dirs));
     sort(dirs.begin(), dirs.end());
     
     for (vector<fs::path>::const_iterator it (dirs.begin()); it != dirs.end(); ++it) {

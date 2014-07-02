@@ -10,6 +10,7 @@
 #define __carousel__Pincher__
 
 #include "cinder/Vector.h"
+#include <vector>
 #include "Finger.h"
 
 class Pincher {

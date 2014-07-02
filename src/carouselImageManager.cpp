@@ -7,6 +7,7 @@
 //
 
 #include "carouselImageManager.h"
+#include "cinder/app/AppNative.h"
 
 using namespace ci;
 using namespace std;
@@ -28,7 +29,7 @@ void carouselImageManager::setup()
     mHitArea = Rectf(Vec2f(0, app::getWindowHeight()*0.2), Vec2f(app::getWindowWidth(),app::getWindowHeight()*0.8));
     
     vector<fs::path> dirs;
-    copy(fs::directory_iterator("/Users/Nick/src/carousel/assets/photos/"), fs::directory_iterator(), back_inserter(dirs));
+    copy(fs::directory_iterator(app::getAssetPath("photos")), fs::directory_iterator(), back_inserter(dirs));
     sort(dirs.begin(), dirs.end());
     
     for (vector<fs::path>::const_iterator it (dirs.cbegin()); it != dirs.cend(); ++it) {
