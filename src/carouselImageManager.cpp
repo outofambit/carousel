@@ -8,6 +8,7 @@
 
 #include "carouselImageManager.h"
 #include "cinder/app/AppNative.h"
+#include "cinder/ImageIo.h"
 
 using namespace ci;
 using namespace std;
@@ -27,12 +28,6 @@ void carouselImageManager::setup()
 {
     mCenterPos = app::getWindowCenter();
     mHitArea = Rectf(Vec2f(0, app::getWindowHeight()*0.2), Vec2f(app::getWindowWidth(),app::getWindowHeight()*0.8));
-    
-    mGradeRect.set( 0, 0, app::getWindowWidth()*0.45, app::getWindowHeight()*0.15 );
-    mGradeRect.offsetCenterTo( Vec2f(app::getWindowWidth()/2, 920) );
-    
-    if (fs::exists(app::getAssetPath("grade.png")))
-        mGradeTex = loadImage(app::getAssetPath("grade.png"));
     
     vector<fs::path> dirs;
     copy(fs::directory_iterator(app::getAssetPath("photos")), fs::directory_iterator(), back_inserter(dirs));
@@ -65,9 +60,6 @@ void carouselImageManager::draw()
     }
     mCaims[mCIndex]->draw();
     
-    //draw gradient
-    if (mGradeTex)
-        gl::draw(mGradeTex, mGradeRect);
 }
 
 void carouselImageManager::goToYear(const int y)

@@ -26,6 +26,8 @@ void CarouselImage::setup()
     getPhotoTexture( &mTexture );
     if (mTexture)
         mBR = Vec2f( mTexture.getWidth(), mTexture.getHeight() );
+	if (fs::exists(app::getAssetPath("grade.png")))
+        mGradeTex = loadImage(app::getAssetPath("grade.png"));
 }
 
 bool CarouselImage::getPhotoTexture(gl::Texture *into)
@@ -151,6 +153,8 @@ void CarouselImage::draw()
         gl::color(mNamesColor);
         if ( mNamesTex )
             gl::draw(mNamesTex, mNamesSrcArea, mNamesRect);
+		if ( mGradeTex )
+			gl::draw(mGradeTex, mNamesRect);
         
         if (mResizing) {
             // todo: fade this in

@@ -17,8 +17,7 @@ class carouselImageManager {
     std::vector<CarouselImage *>    mCaims;
     ci::Vec2f                       mCenterPos;
     int                             mCIndex;
-    ci::Rectf                       mHitArea, mGradeRect;
-    ci::gl::Texture                 mGradeTex;
+    ci::Rectf                       mHitArea;
     
 public:
     carouselImageManager();
