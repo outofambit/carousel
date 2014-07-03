@@ -181,7 +181,7 @@ void CarouselImage::setShouldDraw(const bool b)
             getTitleTexture( &mTitleTex );
             getNamesTexture( &mNamesTex );
             if (mNamesTex) {
-                mNamesRect.set( 0, 0, mNamesTex.getWidth()*0.45, app::getWindowHeight()*0.15 );
+                mNamesRect.set( 0, 0, app::getWindowWidth()*0.45, app::getWindowHeight()*0.15 );
                 mNamesRect.offsetCenterTo( Vec2f(app::getWindowWidth()/2, 920) );
             }
             if (mTitleTex) {
