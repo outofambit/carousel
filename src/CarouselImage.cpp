@@ -146,7 +146,7 @@ void CarouselImage::draw()
     if (getShouldDraw()) {
         gl::color(mTitleColor);
         if ( mTitleTex )
-            gl::draw(mTitleTex, Vec2f(app::getWindowWidth()/2-mTitleTex.getWidth()/2, 200));
+            gl::draw(mTitleTex, mTitleRect);
         
         gl::color(mNamesColor);
         if ( mNamesTex )
@@ -181,8 +181,12 @@ void CarouselImage::setShouldDraw(const bool b)
             getTitleTexture( &mTitleTex );
             getNamesTexture( &mNamesTex );
             if (mNamesTex) {
-                mNamesRect.set( 0, 0, mNamesTex.getWidth()*0.7, 200 );
+                mNamesRect.set( 0, 0, mNamesTex.getWidth()*0.45, app::getWindowHeight()*0.15 );
                 mNamesRect.offsetCenterTo( Vec2f(app::getWindowWidth()/2, 920) );
+            }
+            if (mTitleTex) {
+                mTitleRect.set( 0, 0, mTitleTex.getAspectRatio()*25, 25 );
+                mTitleRect.offsetCenterTo( Vec2f(app::getWindowWidth()/2, app::getWindowHeight()*0.185) );
             }
         }
         

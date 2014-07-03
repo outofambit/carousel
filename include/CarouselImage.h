@@ -22,7 +22,7 @@ class CarouselImage {
     ci::Anim<ci::Vec2f>         mPos, mBR;
     ci::Anim<ci::ColorA>        mTitleColor, mNamesColor, mPhotoColor;
     ci::Vec2f                   mOrigSize;
-    ci::Rectf                   mPhotoRect, mNamesRect;
+    ci::Rectf                   mPhotoRect, mNamesRect, mTitleRect;
     ci::Area                    mNamesSrcArea;
     int                         mYear;
     float                       mOriginalWidth;
