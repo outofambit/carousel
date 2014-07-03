@@ -19,8 +19,8 @@ Dateline::Dateline()    :
 void Dateline::setup()
 {
     float xAxis = 100;
-    mStartPt = Vec2f( app::getWindowWidth() * 0.1, xAxis );
-    mEndPt = Vec2f( app::getWindowWidth() * 0.9, xAxis );
+    mStartPt = Vec2f( 40, xAxis );
+    mEndPt = Vec2f( app::getWindowWidth() - 40, xAxis );
     
     vector<fs::path> dirs;
     copy(fs::directory_iterator(app::getAssetPath("photos")), fs::directory_iterator(), back_inserter(dirs));
@@ -35,7 +35,7 @@ void Dateline::setup()
     for (int i = mYears[0] + (10 - mYears[0]%10); i < mYears[mYears.size()-1]; i+=10)
     {
         TextLayout decText;
-        decText.setFont( Font( "Futura", 16 ));
+        decText.setFont( Font( "Futura", 21 ));
         decText.clear( ColorA (1.0,1.0,1.0,0.0) );
         decText.setColor( mColor );
         decText.addLine( to_string( i ) );
@@ -109,11 +109,11 @@ void Dateline::draw()
     // draw hashes
     for (int i = mYears[0] + (10 - mYears[0]%10); i < mYears[mYears.size()-1]; i+=10) {
         gl::color(mColor);
-        gl::drawLine( getPointFromYear(i) - Vec2f( 0, 20 ), getPointFromYear(i) );
+        gl::drawLine( getPointFromYear(i) - Vec2f( 0, 15 ), getPointFromYear(i) );
         gl::color(Color::white());
-        gl::draw(mDecTexs[i], getPointFromYear( i ) - Vec2f (mDecTexs[i].getWidth()/2, 0) + Vec2f( 0, -50 ));
+        gl::draw(mDecTexs[i], getPointFromYear( i ) - Vec2f (mDecTexs[i].getWidth()/2, 0) - Vec2f( 0, mDecTexs[i].getWidth() + 15 ));
     }
     // draw caret
     gl::color(mColor);
-    gl::drawSolidTriangle( mCurPt.value()+Vec2f(0,2), mCurPt.value()+Vec2f( -8, 16 ), mCurPt.value()+Vec2f( 8, 16 ));
+    gl::drawSolidTriangle( mCurPt.value()+Vec2f(0,5), mCurPt.value()+Vec2f( -8, 15 ), mCurPt.value()+Vec2f( 8, 15 ));
 }
