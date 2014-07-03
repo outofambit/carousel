@@ -184,7 +184,7 @@ Anim<ColorA> * carouselImageManager::sendToSide(CarouselImage * const caim, cons
         d = -1;
     
     Vec2f lp = app::getWindowCenter() + Vec2f( app::getWindowWidth() / 2 * d,0 );
-    lp += Vec2f( ( caim -> getWidth() / 2 - 30) * d, 0 );
+    lp += Vec2f( ( caim -> getWidth() / 2 - app::getWindowWidth() * 0.05) * d, 0 );
     caim->resetPhotoSize();
     caim -> setPos( lp );
     caim -> setShouldDraw(true);
