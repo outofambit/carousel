@@ -32,8 +32,14 @@ bool CarouselImage::getPhotoTexture(gl::Texture *into)
 {
     char buffer [15];
     sprintf(buffer, "photo-%i.jpg", mYear);
+    char buffer2 [15];
+    sprintf(buffer2, "photo-%i.png", mYear);
     if (fs::exists( mBasePath / fs::path( buffer ))) {
         *into = loadImage( mBasePath / fs::path( buffer ) );
+        return true;
+    }
+    else if (fs::exists( mBasePath / fs::path( buffer2 ))) {
+        *into = loadImage( mBasePath / fs::path( buffer2 ) );
         return true;
     }
     app::console() << "couldn't load " << buffer << endl;
